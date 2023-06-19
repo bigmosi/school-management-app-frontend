@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './StudentList.css';
 
@@ -35,7 +36,9 @@ const StudentList = () => {
         <tbody>
           {students.map((student) => (
             <tr key={student.id} className="list-container">
-              <td>{student.name}</td>
+              <td>
+                <Link to={`/students/${student.id}`}>{student.name}</Link>
+              </td>
               <td>{student.dateOfBirth}</td>
               <td>{student.gender}</td>
               <td>{student.address}</td>
