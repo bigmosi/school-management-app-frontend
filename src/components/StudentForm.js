@@ -92,7 +92,9 @@ const StudentForm = () => {
 
 
   return (
-    <form onSubmit={handleSubmit} className="form-container">
+  <div>
+     <h2 className="student-title">Add New Student</h2>
+     <form onSubmit={handleSubmit} className="form-container">
       <label>Full Name:</label>
       <input
         type="text"
@@ -183,14 +185,15 @@ const StudentForm = () => {
           />
         </div>
       ))}
-
-      <button type="button" onClick={addEmergencyContact}>
+      {successMessage && <div className="success-message">{successMessage}</div>}
+    <div className="button-container">
+      <button type="button" onClick={addEmergencyContact} className="emergency-contact">
         Add Emergency Contact
       </button>
-      {successMessage && <div className="success-message">{successMessage}</div>}
-
       <button type="submit">Submit</button>
+    </div>
     </form>
+  </div>
   );
 };
 

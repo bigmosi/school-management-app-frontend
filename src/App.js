@@ -1,19 +1,20 @@
-import StudentForm from "./components/StudentForm";
-import StudentProfile from "./components/StudentProfile";
-
+import React from 'react';
+import {
+  BrowserRouter as Router, Routes, Route, useParams,
+} from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import StudentPage from './pages/StudentPage';
+import StudentForm from './components/StudentForm';
 
 const App = () => {
-  
   return (
-    <div>
-      <h1>School Management System</h1>
-      <StudentForm />
-      <hr />
-      <h2>Student Profiles</h2>
-      {/* Render a list of student profiles */}
-      {/* Use the StudentProfile component and pass the studentId */}
-      <StudentProfile />
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<HomePage />} />
+        <Route path="/students" element={<StudentPage />} />
+        <Route path="/add-student" element={<StudentForm />} />
+      </Routes>
+    </Router>
   );
 };
 

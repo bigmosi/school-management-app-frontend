@@ -39,4 +39,20 @@
   button[type="submit"]:hover {
     background-color: #45a049;
   }
+
+.student-title {
+    text-align: center;
+    font-size: 40px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.success-message {
+    color: green;
+    font-weight: bold;
+  }
   
