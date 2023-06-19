@@ -1,0 +1,38 @@
+.student-list {
+    margin-top: 20px;
+  }
+  
+  .student-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .student-list th,
+  .student-list td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .student-list th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .student-list tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .student-list tbody tr:hover {
+    background-color: #eaf6fd;
+  }
+
+  h2 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 40px;
+    text-align: center;
+  }
+
+  .list-container {
+    text-align: center;
+  }
+  

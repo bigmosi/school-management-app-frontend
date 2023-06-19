@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router, Routes, Route, useParams,
 } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import StudentPage from './pages/StudentPage';
+import StudentList from './components/StudentList';
 import StudentForm from './components/StudentForm';
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route exact path="/" element={<HomePage />} />
-        <Route path="/students" element={<StudentPage />} />
+        <Route path="/students" element={<StudentList />} />
         <Route path="/add-student" element={<StudentForm />} />
       </Routes>
     </Router>
