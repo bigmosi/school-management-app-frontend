@@ -10,6 +10,26 @@
 .emergency-contact {
     margin-top: 10px;
     padding-top: 10px;
-    background-color: #e8e8e8;
     border-radius: 5px;
+    width: 500px;
+    justify-content: center;
+}
+
+.emergency-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.attendance-item {
+    width: 500px;
+}
+
+.record {
+    text-align: center;
+}
+
+.attendance-container {
+    display: flex;
+    justify-content: center;
 }
