@@ -35,7 +35,30 @@ const AdmissionForm = () => {
       };
 
       const addPreviousSchool = () => {
-        setFormData
+        setFormData((prevData) => ({
+          ...prevData,
+          previousSchool: [
+            ...prevData.previousSchool,
+            {
+              name: '',
+              location: '',
+              class: '',
+              yearofstudy: '',
+              grade: '',
+            }
+          ],
+        }));
+      };
+
+      const removePreviousSchool = (index) => {
+        setFormData((prevData) => {
+          const updatedPreviousSchool = [...prevData.previousSchool];
+          updatedPreviousSchool.splice(index, 1);
+          return {
+            ...prevData,
+            previousSchool: updatedPreviousSchool,
+          }
+        });
       }
       
 }
