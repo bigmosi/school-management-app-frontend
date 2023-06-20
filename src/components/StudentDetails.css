@@ -27,9 +27,31 @@
 
 .record {
     text-align: center;
+    color: gray;
 }
 
 .attendance-container {
+    display: flex;
+    justify-content: center;
+    width: 350px;
+}
+
+.academic-performance-list {
+    list-style-type: none;
+    padding: 0;
+    width: 350px;
+}
+
+.academic-performance-container {
+    display: flex;
+    justify-content: center;
+}
+
+.academic-performance-item {
+    margin-bottom: 10px;
+}
+
+.attendance-main {
     display: flex;
     justify-content: center;
 }

@@ -7,10 +7,14 @@ const StudentDetails = () => {
   const { id } = useParams();
   const [student, setStudent] = useState(null);
   const [attendance, setAttendance] = useState([]);
+  const [disciplinaryHistory, setDisciplinaryHistory] = useState([]);
+  const [academicPerformance, setAcademicPerformance] = useState([]);
 
   useEffect(() => {
     fetchStudent();
     fetchAttendance();
+    fetchDisciplinary();
+    fetchAcademic();
   }, [id]);
 
   const fetchStudent = async () => {
@@ -31,6 +35,26 @@ const StudentDetails = () => {
     }
   }
 
+  const fetchDisciplinary = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/students/${id}/disciplinary-history`);
+      setDisciplinaryHistory(response.data);
+    } catch (error) {
+      console.error('Error fetching disciplinary history:', error);
+    }
+  }
+
+  const fetchAcademic = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/students/${id}/acamdemic-performance`);
+      setAcademicPerformance(response.data);
+    } catch (error) {
+      console.error('Error fetching disciplinary history:', error);
+    }
+  }
+
+
+
   if (!student) {
     return <div>Loading...</div>;
   }
@@ -38,7 +62,8 @@ const StudentDetails = () => {
   return (
     <div className="students-details">
       <h2>Student Details</h2>
-     <div className="attendance-container">
+      <div className="attendance-main">
+      <div className="attendance-container">
      <div className="attendance-item">
       <div>
         <strong>Name:</strong> {student.name}
@@ -60,9 +85,11 @@ const StudentDetails = () => {
       </div>
       </div>
      </div>
+      </div>
       <div className="emergency-container">
       <div>
         <h2>Emergency Contacts:</h2>
+        <div className="academic-performance-container">
         {student.emergencyContacts.map((emergencyContact, index) => (
           <div key={index} className="emergency-contact">
             <div>
@@ -76,9 +103,11 @@ const StudentDetails = () => {
             </div>
           </div>
         ))}
+        </div>
       </div>
       </div>
       <h2 className="section-heading">Attendance</h2>
+      <div className="attendance-main">
       <div className="attendance-details">
         {
           attendance.length > 0 ? (
@@ -98,6 +127,51 @@ const StudentDetails = () => {
             <div className="record">No attendance records found.</div>
           )
         }
+      </div>
+      </div>
+      <div>
+        <h2>Displinary History</h2>
+        <div className="academic-performance-container">
+        {
+          disciplinaryHistory.length > 0 ? (
+            <ul className="academic-performance-list">
+              {
+                disciplinaryHistory.map((record) => (
+                  <li key={record.id} className="academic-performance-item">
+                    <strong>Date:</strong> {record.date}
+                    <br />
+                    <strong>Description:</strong> {record.discription}
+                  </li>
+                ))
+              }
+            </ul>
+          ) : (
+            <div className="record">No disciplinary history records founds.</div>
+          )
+        }
+        </div>
+      </div>
+      <div>
+        <h2>Academic Performance </h2>
+        <div className="academic-performance-container">
+        {
+          academicPerformance.length > 0 ? (
+            <ul className="academic-performance-list">
+              {
+                academicPerformance.map((record) => (
+                  <li key={record.id} className="academic-performance-item">
+                    <strong>Subject:</strong> {record.subject}
+                    <br />
+                    <strong>Marks:</strong> {record.marks}
+                  </li>
+                ))
+              }
+            </ul>
+          ) : (
+            <div className="record">No academic performance records founds.</div>
+          )
+        }
+        </div>
       </div>
     </div>
   );
