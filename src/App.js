@@ -21,6 +21,7 @@ const App = () => {
         <Route path="/attendance" element={<AttendanceList />} />
       </Routes>
     </Router>
+    
   );
 };
 
