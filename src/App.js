@@ -6,6 +6,8 @@ import HomePage from './pages/HomePage';
 import StudentList from './components/StudentList';
 import StudentForm from './components/StudentForm';
 import StudentDetails from './components/StudentDetails';
+import AdmissionForm from './components/Admission';
+import AttendanceList from './components/AttendanceList';
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
         <Route path="/students" element={<StudentList />} />
         <Route path="/add-student" element={<StudentForm />} />
         <Route path="/students/:id" element={<StudentDetails />} />
+        <Route path="/admission" element={<AdmissionForm />} />
+        <Route path="/attendance" element={<AttendanceList />} />
       </Routes>
     </Router>
   );
