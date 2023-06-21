@@ -8,10 +8,12 @@ import StudentForm from './components/StudentForm';
 import StudentDetails from './components/StudentDetails';
 import AdmissionForm from './components/Admission';
 import AttendanceList from './components/AttendanceList';
+import Navigation from './components/Navigation';
 
 const App = () => {
   return (
     <Router>
+      <Navigation />
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/students" element={<StudentList />} />
