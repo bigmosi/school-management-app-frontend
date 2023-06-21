@@ -9,9 +9,6 @@ const Navigation = () => {
           <Link to="/" style={linkStyle}>Home</Link>
         </li>
         <li style={liStyle}>
-          <Link to="/add-student" style={linkStyle}>Add New Student</Link>
-        </li>
-        <li style={liStyle}>
           <Link to="/students" style={linkStyle}>Students</Link>
         </li>
         <li style={liStyle}>
@@ -19,9 +16,6 @@ const Navigation = () => {
         </li>
         <li style={liStyle}>
           <Link to="/courses" style={linkStyle}>Courses</Link>
-        </li>
-        <li style={liStyle}>
-          <Link to="/attendance" style={linkStyle}>Attendance</Link>
         </li>
       </ul>
     </nav>
@@ -37,7 +31,7 @@ const navStyle = {
 const ulStyle = {
   listStyleType: "none",
   display: "flex",
-  justifyContent: "space-between",
+  justifyContent: "space-around",
 };
 
 const liStyle = {
@@ -47,6 +41,8 @@ const liStyle = {
 const linkStyle = {
   textDecoration: "none",
   color: "white",
+  fontSize: "18px",
+  fontFamily: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
 };
 
 export default Navigation;
