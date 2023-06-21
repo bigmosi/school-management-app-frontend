@@ -22,7 +22,7 @@ const AttendanceList = () => {
 
   const handleAttendanceChange = async (attendanceId, status) => {
     try {
-      await axios.put(`http://localhost:8080/api/attendance/${id}`, {
+      await axios.put(`http://localhost:8080/api/attendance/${attendanceId}`, {
         status: status,
       });
       // Refresh attendance data after successful update
