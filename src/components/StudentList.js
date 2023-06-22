@@ -51,13 +51,15 @@ const StudentList = () => {
         <Link to="/attendance" className="add-student-link">Attendance</Link>
       </div>
       <div>
-        <h2>Total Number of Students: {students.length}</h2>
+        {/* <h2>Total Number of Students: {students.length}</h2> */}
         <Search
           placeholder="Search by name"
           value={searchTerm}
           onChange={(e) => handleSearch(e.target.value)}
+          className="search-item"
         />
       </div>
+      <div className="table-container">
       <table>
         <thead>
           <tr>
@@ -88,6 +90,7 @@ const StudentList = () => {
           ))}
         </tbody>
       </table>
+      </div>
       <Modal
         title={selectedStudent ? selectedStudent.name : ''}
         visible={isModalVisible}

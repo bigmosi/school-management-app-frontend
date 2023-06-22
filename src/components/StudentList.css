@@ -3,7 +3,7 @@
   }
   
   .student-list table {
-    width: 100%;
+    width: 60%;
     border-collapse: collapse;
   }
   
@@ -59,10 +59,16 @@
 
 .search-item {
   width: 250px;
+  margin-bottom: 20px;
 }
 
 .modal {
   border-radius: none;
-  float: right;
+  float: center;
+}
+
+.table-container {
+  display: flex;
+  justify-content: space-between;
 }
   
