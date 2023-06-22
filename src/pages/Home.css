@@ -1,0 +1,48 @@
+.homepage {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .homepage h1 {
+    font-size: 40px;
+    color: #333;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+  .homepage h3 {
+    font-size: 35px;
+    color: #333;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+  .homepage p {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .homepage h2 {
+    font-size: 24px;
+    color: #333;
+    margin-top: 40px;
+  }
+  
+  .homepage ul {
+    list-style-type: none;
+    margin-top: 20px;
+    padding: 0;
+  }
+  
+  .homepage li {
+    margin-bottom: 10px;
+  }
+  
+  .homepage a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .homepage a:hover {
+    text-decoration: underline;
+  }
+  

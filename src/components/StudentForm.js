@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './StudentForm.css';
+import DisciplinaryForm from './DisciplnaryForm';
 
 // StudentForm component for registering a new student
 const StudentForm = () => {
@@ -10,10 +11,13 @@ const StudentForm = () => {
     gender: '',
     address: '',
     contact: {
+      contactNumber: '',
       email: '',
-      contactNumber: ''
     },
-    emergencyContacts: []
+    emergencyContacts: [],
+    attendance: [],
+    academicPerformance: [],
+    disciplinaryHistory: [],
   });
 
   const [successMessage, setSuccessMessage] = useState('');
@@ -21,7 +25,7 @@ const StudentForm = () => {
   const handleInputChange = (e) => {
     setStudentData({
       ...studentData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -30,8 +34,8 @@ const StudentForm = () => {
       ...studentData,
       contact: {
         ...studentData.contact,
-        [e.target.name]: e.target.value
-      }
+        [e.target.name]: e.target.value,
+      },
     });
   };
 
@@ -40,19 +44,50 @@ const StudentForm = () => {
     const updatedEmergencyContacts = [...studentData.emergencyContacts];
     updatedEmergencyContacts[index] = {
       ...updatedEmergencyContacts[index],
-      [name]: value
+      [name]: value,
     };
 
     setStudentData({
       ...studentData,
-      emergencyContacts: updatedEmergencyContacts
+      emergencyContacts: updatedEmergencyContacts,
     });
   };
 
   const addEmergencyContact = () => {
     setStudentData({
       ...studentData,
-      emergencyContacts: [...studentData.emergencyContacts, {}]
+      emergencyContacts: [...studentData.emergencyContacts, {}],
+    });
+  };
+
+  const handleDisciplinaryHistoryChange = (index, field, value) => {
+    const updatedHistory = [...studentData.disciplinaryHistory];
+    updatedHistory[index] = {
+      ...updatedHistory[index],
+      [field]: value,
+    };
+    setStudentData({
+      ...studentData,
+      disciplinaryHistory: updatedHistory,
+    });
+  };
+
+  const addDisciplinaryHistory = () => {
+    setStudentData({
+      ...studentData,
+      disciplinaryHistory: [
+        ...studentData.disciplinaryHistory,
+        { date: '', description: '' },
+      ],
+    });
+  };
+
+  const removeDisciplinaryHistory = (index) => {
+    const updatedHistory = [...studentData.disciplinaryHistory];
+    updatedHistory.splice(index, 1);
+    setStudentData({
+      ...studentData,
+      disciplinaryHistory: updatedHistory,
     });
   };
 
@@ -60,9 +95,9 @@ const StudentForm = () => {
     e.preventDefault();
 
     try {
-      // Send POST request to backend API endpoint to create a new student
+      // Send POST request to backend API endpoint to create a new student with disciplinary history
       await axios.post('http://localhost:8080/api/students/', studentData);
-
+        console.log(studentData);
       // Reset the form
       setStudentData({
         name: '',
@@ -70,14 +105,16 @@ const StudentForm = () => {
         gender: '',
         address: '',
         contact: {
+          contactNumber: '',
           email: '',
-          contactNumber: ''
         },
-        emergencyContacts: []
+        emergencyContacts: [],
+        attendance: [],
+        academicPerformance: [],
+        disciplinaryHistory: [],
       });
 
       // Display success message or redirect to another page
-
       setSuccessMessage('Form submitted successfully.');
 
       // Hide the success message after 3 seconds
@@ -155,7 +192,36 @@ const StudentForm = () => {
         placeholder="Contact Number"
         required
       />
+      <h3>Disciplinary History</h3>
+        {studentData.disciplinaryHistory.map((history, index) => (
+          <div key={index}>
+            <label>Date:</label>
+            <input
+              type="date"
+              value={history.date}
+              onChange={(e) =>
+                handleDisciplinaryHistoryChange(index, 'date', e.target.value)
+              }
+            />
 
+            <label>Description:</label>
+            <input
+              type="text"
+              value={history.description}
+              onChange={(e) =>
+                handleDisciplinaryHistoryChange(index, 'description', e.target.value)
+              }
+            />
+
+            <button type="button" onClick={() => removeDisciplinaryHistory(index)}>
+              Remove
+            </button>
+          </div>
+        ))}
+
+        <button type="button" onClick={addDisciplinaryHistory}>
+          Add Disciplinary History
+        </button>
       <label>Emergency Contacts:</label>
       {studentData.emergencyContacts.map((emergencyContact, index) => (
         <div key={index}>
@@ -185,13 +251,15 @@ const StudentForm = () => {
           />
         </div>
       ))}
-      {successMessage && <div className="success-message">{successMessage}</div>}
-    <div className="button-container">
-      <button type="button" onClick={addEmergencyContact} className="emergency-contact">
-        Add Emergency Contact
-      </button>
-      <button type="submit">Submit</button>
-    </div>
+      
+        {successMessage && <div className="success-message">{successMessage}</div>}
+
+        <div className="button-container">
+          <button type="button" onClick={addEmergencyContact} className="emergency-contact">
+            Add Emergency Contact
+          </button>
+          <button type="submit">Submit</button>
+        </div>
     </form>
   </div>
   );

@@ -1,0 +1,40 @@
+.attendance-list {
+    margin-top: 50px;
+  }
+  
+  .attendance-list h2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .attendance-list label {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .attendance-list input[type="date"] {
+    margin-left: 10px;
+  }
+  
+  .attendance-list table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  .attendance-list th,
+  .attendance-list td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .attendance-list th {
+    font-weight: bold;
+  }
+  
+  .attendance-list select {
+    padding: 6px;
+    font-size: 14px;
+  }
+  

@@ -1,22 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './Home.css';
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Welcome to School Management App</h1>
+    <div className="homepage">
+      <h1>Welcome to new way University of Eduma</h1>
       <p>Manage your school efficiently with our comprehensive school management app.</p>
-      <div>
-        <h2>Get Started:</h2>
-        <ul>
-          <li>
-            <Link to="/students">View Students</Link>
-          </li>
-          <li>
-            <Link to="/add-student">Add New Student</Link>
-          </li>
-        </ul>
-      </div>
+      <h3>How to enroll your child to a class ?</h3>
     </div>
   );
 };

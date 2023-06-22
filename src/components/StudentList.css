@@ -35,4 +35,25 @@
   .list-container {
     text-align: center;
   }
+
+.new-student {
+  margin: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.add-student-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #337ab7;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.add-student-link:hover {
+  background-color: #23527c;
+}
   

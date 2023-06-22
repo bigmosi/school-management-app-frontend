@@ -22,6 +22,15 @@ const StudentList = () => {
   return (
     <div className="student-list">
       <h2>Student List</h2>
+      <div className="new-student">
+        <Link to="/add-student" className="add-student-link">Add New Student</Link>
+        <Link to="/attendance" className="add-student-link">Attendance</Link>
+      </div>
+      <div>
+      <div>
+        <h2>Total Number of Students:{students.length}</h2>
+      </div>
+      </div>
       <table>
         <thead>
           <tr>
