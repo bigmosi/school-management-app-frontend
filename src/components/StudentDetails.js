@@ -7,13 +7,11 @@ const StudentDetails = () => {
   const { id } = useParams();
   const [student, setStudent] = useState(null);
   const [attendance, setAttendance] = useState([]);
-  const [disciplinaryHistory, setDisciplinaryHistory] = useState([]);
   const [academicPerformance, setAcademicPerformance] = useState([]);
 
   useEffect(() => {
     fetchStudent();
     fetchAttendance();
-    fetchDisciplinary();
     fetchAcademic();
   }, [id]);
 
@@ -21,6 +19,7 @@ const StudentDetails = () => {
     try {
       const response = await axios.get(`http://localhost:8080/api/students/${id}`);
       setStudent(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching student:', error);
     }
@@ -35,14 +34,6 @@ const StudentDetails = () => {
     }
   }
 
-  const fetchDisciplinary = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/api/students/${id}/disciplinary-history`);
-      setDisciplinaryHistory(response.data);
-    } catch (error) {
-      console.error('Error fetching disciplinary history:', error);
-    }
-  }
 
   const fetchAcademic = async () => {
     try {
@@ -131,25 +122,24 @@ const StudentDetails = () => {
       </div>
       <div>
         <h2>Displinary History</h2>
-        <div className="academic-performance-container">
-        {
-          disciplinaryHistory.length > 0 ? (
-            <ul className="academic-performance-list">
-              {
-                disciplinaryHistory.map((record) => (
-                  <li key={record.id} className="academic-performance-item">
-                    <strong>Date:</strong> {record.date}
-                    <br />
-                    <strong>Description:</strong> {record.discription}
-                  </li>
-                ))
-              }
-            </ul>
-          ) : (
-            <div className="record">No disciplinary history records founds.</div>
-          )
-        }
-        </div>
+        <div>
+  <div className="academic-performance-container">
+    {student.disciplinaryHistory.length > 0 ? (
+      <ul className="disciplinary-history-list">
+        {student.disciplinaryHistory.map((record) => (
+          <li key={record._id} className="disciplinary-history-item">
+            <strong>Date:</strong> {record.date}
+            <br />
+            <strong>Description:</strong> {record.description}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div className="record">No disciplinary history records found.</div>
+    )}
+  </div>
+</div>
+
       </div>
       <div>
         <h2>Academic Performance </h2>

@@ -4,8 +4,15 @@
   }
   
   .homepage h1 {
-    font-size: 32px;
+    font-size: 40px;
     color: #333;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+  .homepage h3 {
+    font-size: 35px;
+    color: #333;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   }
   
   .homepage p {
