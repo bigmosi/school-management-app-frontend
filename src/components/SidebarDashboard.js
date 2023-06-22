@@ -21,10 +21,10 @@ function getItem(label, key, icon, children, path) {
 }
 
 const items = [
-  getItem('Home Page', 'home', <PieChartOutlined />, null, '/home'),
-  getItem('Student List', 'students', <UserOutlined />, null, '/students'),
-  getItem('Admission Form', 'admission', <UserOutlined />, null, '/admission'),
-  getItem('Attendance List', 'attendance', <DesktopOutlined />, null, '/attendance'),
+  getItem('Dashboard', 'home', <PieChartOutlined />, null, '/home'),
+  getItem('Student', 'students', <UserOutlined />, null, '/students'),
+  getItem('Admission', 'admission', <UserOutlined />, null, '/admission'),
+  getItem('Attendance', 'attendance', <DesktopOutlined />, null, '/attendance'),
 ];
 
 const SidebarDashboard = () => {
