@@ -56,4 +56,13 @@
 .add-student-link:hover {
   background-color: #23527c;
 }
+
+.search-item {
+  width: 250px;
+}
+
+.modal {
+  border-radius: none;
+  float: right;
+}
   

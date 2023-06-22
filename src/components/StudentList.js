@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Input, Modal } from 'antd';
 import './StudentList.css';
+
+const { Search } = Input;
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     fetchStudents();
@@ -19,6 +25,24 @@ const StudentList = () => {
     }
   };
 
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+  };
+
+  const handleStudentClick = (student) => {
+    setSelectedStudent(student);
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setSelectedStudent(null);
+    setIsModalVisible(false);
+  };
+
+  const filteredStudents = students.filter((student) =>
+    student.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="student-list">
       <h2>Student List</h2>
@@ -27,9 +51,12 @@ const StudentList = () => {
         <Link to="/attendance" className="add-student-link">Attendance</Link>
       </div>
       <div>
-      <div>
-        <h2>Total Number of Students:{students.length}</h2>
-      </div>
+        <h2>Total Number of Students: {students.length}</h2>
+        <Search
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
       </div>
       <table>
         <thead>
@@ -43,10 +70,14 @@ const StudentList = () => {
           </tr>
         </thead>
         <tbody>
-          {students.map((student) => (
+          {filteredStudents.map((student) => (
             <tr key={student.id} className="list-container">
               <td>
-                <Link to={`/students/${student.id}`}>{student.name}</Link>
+                <span 
+                   onClick={() => handleStudentClick(student)} 
+                   className="modal"
+                   >{student.name}
+                   </span>
               </td>
               <td>{student.dateOfBirth}</td>
               <td>{student.gender}</td>
@@ -57,6 +88,24 @@ const StudentList = () => {
           ))}
         </tbody>
       </table>
+      <Modal
+        title={selectedStudent ? selectedStudent.name : ''}
+        visible={isModalVisible}
+        onCancel={handleModalClose}
+        footer={null}
+        className="modal"
+        style={{ height: '300px' }}
+      >
+        {selectedStudent && (
+          <div>
+            <p>Date of Birth: {selectedStudent.dateOfBirth}</p>
+            <p>Gender: {selectedStudent.gender}</p>
+            <p>Address: {selectedStudent.address}</p>
+            <p>Email: {selectedStudent.contact.email}</p>
+            <p>Contact Number: {selectedStudent.contact.contactNumber}</p>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };
