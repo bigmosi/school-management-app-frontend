@@ -42,11 +42,6 @@ const StudentList = ({ students }) => {
 
   return (
     <div className="student-list">
-      <h2>Student List</h2>
-      <div className="new-student">
-        <Link to="/add-student" className="add-student-link">Add New Student</Link>
-        <Link to="/attendance" className="add-student-link">Attendance</Link>
-      </div>
       <div>
         <Search
           placeholder="Search by name"
@@ -54,6 +49,11 @@ const StudentList = ({ students }) => {
           onChange={(e) => handleSearch(e.target.value)}
           className="search-item"
         />
+      </div>
+      <h2>Students</h2>
+      <div className="new-student">
+        <Link to="/add-student" className="add-student-link">+ Add Student</Link>
+        {/* <Link to="/attendance" className="add-student-link">Attendance</Link> */}
       </div>
       <div className="table-container">
         <table>
