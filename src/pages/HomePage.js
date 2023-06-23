@@ -23,11 +23,7 @@ const HomePage = ({students}) => {
       </Card>
     </Col>
   </Row>
-      {students.length}
-      <h1>Welcome to new way University of Eduma</h1>
-      <p>Manage your school efficiently with our comprehensive school management app.</p>
-      <h3>How to enroll your child to a class ?</h3>
-    </div>
+  </div>
   );
 };
 
