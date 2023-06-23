@@ -3,7 +3,7 @@
   }
   
   .student-list table {
-    width: 60%;
+    width: 90%;
     border-collapse: collapse;
   }
   
@@ -122,4 +122,16 @@
   vertical-align: middle;
 }
 
+/* .form-container {
+  border: 2px solid red;
+
+} */
+
+.disciplinary-history input {
+  width: 25%;
+}
+
+.disciplinary-history {
+  display: flex;
+}
   

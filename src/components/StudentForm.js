@@ -130,8 +130,10 @@ const StudentForm = () => {
 
   return (
   <div>
-     <h2 className="student-title">Add New Student</h2>
+     <h2 className="student-title">Add Students</h2>
      <form onSubmit={handleSubmit} className="form-container">
+    <div className='form-main'>
+    <div>
       <label>Full Name:</label>
       <input
         type="text"
@@ -141,7 +143,9 @@ const StudentForm = () => {
         placeholder="Full Name"
         required
       />
+      </div>
 
+      <div>
       <label>Date of Birth:</label>
       <input
         type="date"
@@ -150,7 +154,9 @@ const StudentForm = () => {
         onChange={handleInputChange}
         required
       />
+      </div>
 
+      <div>
       <label>Gender:</label>
       <select
         name="gender"
@@ -163,7 +169,9 @@ const StudentForm = () => {
         <option value="Female">Female</option>
         <option value="Other">Other</option>
       </select>
+      </div>
 
+      <div>
       <label>Address:</label>
       <textarea
         name="address"
@@ -172,7 +180,9 @@ const StudentForm = () => {
         placeholder="Enter Address"
         required
       ></textarea>
+      </div>
 
+      <div>
       <label>Contact Email:</label>
       <input
         type="email"
@@ -182,7 +192,9 @@ const StudentForm = () => {
         placeholder="Email"
         required
       />
+      </div>
 
+      <div>
       <label>Contact Phone:</label>
       <input
         type="tel"
@@ -192,9 +204,11 @@ const StudentForm = () => {
         placeholder="Contact Number"
         required
       />
-      <h3>Disciplinary History</h3>
+      </div>
+    </div>
+      {/* <h3>Disciplinary History</h3> */}
         {studentData.disciplinaryHistory.map((history, index) => (
-          <div key={index}>
+          <div key={index} className="disciplinary-history">
             <label>Date:</label>
             <input
               type="date"
@@ -213,18 +227,18 @@ const StudentForm = () => {
               }
             />
 
-            <button type="button" onClick={() => removeDisciplinaryHistory(index)}>
+            <button type="button" onClick={() => removeDisciplinaryHistory(index)} className="remove-student">
               Remove
             </button>
           </div>
         ))}
 
-        <button type="button" onClick={addDisciplinaryHistory}>
+        <button type="button" onClick={addDisciplinaryHistory} className="emergency-contact">
           Add Disciplinary History
         </button>
       <label>Emergency Contacts:</label>
       {studentData.emergencyContacts.map((emergencyContact, index) => (
-        <div key={index}>
+        <div key={index} className="emergency-input">
           <input
             type="text"
             name="name"
@@ -258,7 +272,7 @@ const StudentForm = () => {
           <button type="button" onClick={addEmergencyContact} className="emergency-contact">
             Add Emergency Contact
           </button>
-          <button type="submit">Submit</button>
+          <button type="submit" className="add-student">Add Student</button>
         </div>
     </form>
   </div>
