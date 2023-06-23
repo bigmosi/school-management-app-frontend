@@ -92,7 +92,7 @@ const AttendanceList = () => {
       <form onSubmit={handleSubmit}>
         <label>
           Student:
-          <select name="student" value={newAttendance.student} onChange={handleInputChange}>
+          <select name="student" value={newAttendance.student} onChange={handleInputChange} required>
             <option value="">Select a student</option>
             {/* Render options dynamically based on available student names */}
             {Object.entries(studentNames).map(([id, name]) => (
@@ -107,12 +107,12 @@ const AttendanceList = () => {
             type="date" 
             name="date" 
             value={newAttendance.date} 
-            onChange={handleInputChange} className="attendance-date" />
+            onChange={handleInputChange} className="attendance-date" required />
         </label>
         <br />
         <label>
           Status:
-          <select name="status" value={newAttendance.status} onChange={handleInputChange}>
+          <select name="status" value={newAttendance.status} onChange={handleInputChange} required>
             <option value="">Select a status</option>
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
