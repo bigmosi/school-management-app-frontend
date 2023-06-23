@@ -5,6 +5,11 @@ import './AttendanceList.css';
 const AttendanceList = () => {
   const [attendanceList, setAttendanceList] = useState([]);
   const [studentNames, setStudentNames] = useState({});
+  const [newAttendance, setNewAttendance] = useState({
+    student: '',
+    date: '',
+    status: ''
+  });
 
   useEffect(() => {
     fetchAttendanceList();
@@ -36,6 +41,22 @@ const AttendanceList = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    setNewAttendance({ ...newAttendance, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/attendance', newAttendance);
+      setAttendanceList([...attendanceList, response.data]);
+      setNewAttendance({ student: '', date: '', status: '' });
+    } catch (error) {
+      console.error('Error adding new attendance:', error);
+    }
+  };
+
   return (
     <div>
       <h2>Attendance</h2>
@@ -57,6 +78,36 @@ const AttendanceList = () => {
           ))}
         </tbody>
       </table>
+
+      <h2>Add New Attendance</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Student:
+          <select name="student" value={newAttendance.student} onChange={handleInputChange}>
+            <option value="">Select a student</option>
+            {/* Render options dynamically based on available student names */}
+            {Object.entries(studentNames).map(([id, name]) => (
+              <option key={id} value={id}>{name}</option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <label>
+          Date:
+          <input type="date" name="date" value={newAttendance.date} onChange={handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Status:
+          <select name="status" value={newAttendance.status} onChange={handleInputChange}>
+            <option value="">Select a status</option>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+          </select>
+        </label>
+        <br />
+        <button type="submit">Add Attendance</button>
+      </form>
     </div>
   );
 };
