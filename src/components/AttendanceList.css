@@ -40,3 +40,9 @@
 .attendance-button button {
   font-family: lato;
 }
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}

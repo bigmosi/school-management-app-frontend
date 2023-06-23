@@ -10,6 +10,7 @@ const AttendanceList = () => {
     date: '',
     status: ''
   });
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchAttendanceList();
@@ -49,9 +50,14 @@ const AttendanceList = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/api/attendance', newAttendance);
+      const response = await axios.post('http://localhost:8080/api/attendance', newAttendance); // Replace '/api/attendance' with your actual API endpoint for adding new attendance
       setAttendanceList([...attendanceList, response.data]);
       setNewAttendance({ student: '', date: '', status: '' });
+      setSuccessMessage('Attendance submitted successfully');
+
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 5000);
     } catch (error) {
       console.error('Error adding new attendance:', error);
     }
@@ -86,12 +92,7 @@ const AttendanceList = () => {
       <form onSubmit={handleSubmit}>
         <label>
           Student:
-          <select
-          name="student" 
-          value={newAttendance.student} 
-          onChange={handleInputChange}
-          className="attendance-option"
-          >
+          <select name="student" value={newAttendance.student} onChange={handleInputChange}>
             <option value="">Select a student</option>
             {/* Render options dynamically based on available student names */}
             {Object.entries(studentNames).map(([id, name]) => (
@@ -106,27 +107,21 @@ const AttendanceList = () => {
             type="date" 
             name="date" 
             value={newAttendance.date} 
-            onChange={handleInputChange} 
-            className="attendance-date"
-             />
+            onChange={handleInputChange} className="attendance-date" />
         </label>
         <br />
         <label>
           Status:
-          <select 
-          name="status" 
-          value={newAttendance.status} 
-          onChange={handleInputChange}
-          className="attendance-option"
-          >
+          <select name="status" value={newAttendance.status} onChange={handleInputChange}>
             <option value="">Select a status</option>
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
           </select>
         </label>
         <br />
+        { successMessage && <div className="success-message">{successMessage}</div> }
         <div className="attendance-button">
-          <button type="submit">Add Attendance</button>
+         <button type="submit">Add Attendance</button>
         </div>
       </form>
       </div>
