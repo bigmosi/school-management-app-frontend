@@ -58,7 +58,8 @@ const AttendanceList = () => {
   };
 
   return (
-    <div>
+    <div className="attendance-conatiner">
+      <div>
       <h2>Attendance</h2>
       <table className="attendance-table">
         <thead>
@@ -78,12 +79,19 @@ const AttendanceList = () => {
           ))}
         </tbody>
       </table>
+      </div>
 
+      <div>
       <h2>Add New Attendance</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Student:
-          <select name="student" value={newAttendance.student} onChange={handleInputChange}>
+          <select
+          name="student" 
+          value={newAttendance.student} 
+          onChange={handleInputChange}
+          className="attendance-option"
+          >
             <option value="">Select a student</option>
             {/* Render options dynamically based on available student names */}
             {Object.entries(studentNames).map(([id, name]) => (
@@ -94,20 +102,34 @@ const AttendanceList = () => {
         <br />
         <label>
           Date:
-          <input type="date" name="date" value={newAttendance.date} onChange={handleInputChange} />
+          <input 
+            type="date" 
+            name="date" 
+            value={newAttendance.date} 
+            onChange={handleInputChange} 
+            className="attendance-date"
+             />
         </label>
         <br />
         <label>
           Status:
-          <select name="status" value={newAttendance.status} onChange={handleInputChange}>
+          <select 
+          name="status" 
+          value={newAttendance.status} 
+          onChange={handleInputChange}
+          className="attendance-option"
+          >
             <option value="">Select a status</option>
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
           </select>
         </label>
         <br />
-        <button type="submit">Add Attendance</button>
+        <div className="attendance-button">
+          <button type="submit">Add Attendance</button>
+        </div>
       </form>
+      </div>
     </div>
   );
 };
