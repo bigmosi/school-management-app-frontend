@@ -1,0 +1,21 @@
+.ant-layout-sider-dark .ant-menu-item:hover,
+.ant-layout-sider-dark .ant-menu-submenu:hover,
+.ant-layout-sider-dark .ant-menu-item-active,
+.ant-layout-sider-dark .ant-menu-submenu-active,
+.ant-layout-sider-dark .ant-menu-item-open,
+.ant-layout-sider-dark .ant-menu-submenu-open,
+.ant-layout-sider-dark .ant-menu-item-selected,
+.ant-layout-sider-dark .ant-menu-submenu-selected {
+  background-color: #ffb800;
+  color: #fff;
+}
+
+.ant-layout-sider {
+    background-color: #F7F7F7;
+  }
+
+.ant-menu-item:hover {
+  background-color: #ffb800;
+}
+  
+  
