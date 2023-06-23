@@ -1,31 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { Input, Modal, Pagination } from 'antd';
 import './StudentList.css';
 
 const { Search } = Input;
 
-const StudentList = () => {
-  const [students, setStudents] = useState([]);
+const StudentList = ({ students }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 7; // Number of students to display per page
-
-  useEffect(() => {
-    fetchStudents();
-  }, []);
-
-  const fetchStudents = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/students');
-      setStudents(response.data);
-    } catch (error) {
-      console.error('Error fetching students:', error);
-    }
-  };
 
   const handleSearch = (value) => {
     setSearchTerm(value);

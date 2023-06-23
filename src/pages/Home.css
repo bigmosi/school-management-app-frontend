@@ -45,4 +45,25 @@
   .homepage a:hover {
     text-decoration: underline;
   }
+
+.card-container {
+  background-color: #200C1F;
+  font-size: 30px;
+  color: #fff;
+  font-family: lato;
+}
+
+.teacher-container {
+  background-color: #93FF61;
+  font-size: 30px;
+  color: #fff;
+  font-family: lato;
+}
+
+.semester-container {
+  background-color: #73FFD5;
+  font-size: 30px;
+  color: #fff;
+  font-family: lato;
+}
   
