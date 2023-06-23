@@ -1,40 +1,48 @@
-.attendance-list {
-    margin-top: 50px;
-  }
-  
-  .attendance-list h2 {
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .attendance-list label {
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .attendance-list input[type="date"] {
-    margin-left: 10px;
-  }
-  
-  .attendance-list table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-  }
-  
-  .attendance-list th,
-  .attendance-list td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .attendance-list th {
-    font-weight: bold;
-  }
-  
-  .attendance-list select {
-    padding: 6px;
-    font-size: 14px;
-  }
-  
+.attendance-table {
+  width: 500px;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.attendance-table th, .attendance-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.attendance-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.attendance-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.attendance-table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.attendance-date {
+  margin-left: 14px;
+}
+
+.attendance-conatiner {
+  display: flex;
+  justify-content: space-around;
+  background-color: #fff;
+}
+
+.attendance-button {
+  display: flex;
+  justify-content: center;
+}
+
+.attendance-button button {
+  font-family: lato;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}

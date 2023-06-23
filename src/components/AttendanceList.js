@@ -1,87 +1,132 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import './AttendanceList.css';
 
-const AttendancePage = () => {
-  const { id } = useParams();
-  const [attendance, setAttendance] = useState([]);
+const AttendanceList = () => {
+  const [attendanceList, setAttendanceList] = useState([]);
+  const [studentNames, setStudentNames] = useState({});
   const [newAttendance, setNewAttendance] = useState({
+    student: '',
     date: '',
-    status: '',
+    status: ''
   });
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    fetchAttendance();
+    fetchAttendanceList();
   }, []);
 
-  const fetchAttendance = async () => {
+  const fetchAttendanceList = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/students/${id}/attendance`);
-      console.log(response.data);
-      setAttendance(response.data);
+      const response = await axios.get('http://localhost:8080/api/attendance');
+      setAttendanceList(response.data);
+      fetchStudentNames(response.data);
     } catch (error) {
-      console.error('Error fetching attendance:', error);
+      console.error('Error fetching attendance list:', error);
     }
   };
 
-  const handleAttendanceSubmit = async (event) => {
-    event.preventDefault();
+  const fetchStudentNames = async (attendanceData) => {
+    const studentIds = attendanceData.map(attendance => attendance.student);
+    const uniqueStudentIds = [...new Set(studentIds)];
+
     try {
-      const response = await axios.post(`http://localhost:8080/api/students/${id}/attendance`, newAttendance);
-      setAttendance([...attendance, response.data]);
-      setNewAttendance({
-        date: '',
-        status: '',
+      const response = await axios.get(`http://localhost:8080/api/students?ids=${uniqueStudentIds.join(',')}`); // Replace '/api/students/names' with your actual student API endpoint
+      const namesMap = {};
+      response.data.forEach(student => {
+        namesMap[student.id] = student.name;
       });
+      setStudentNames(namesMap);
     } catch (error) {
-      console.error('Error adding attendance:', error);
+      console.error('Error fetching student names:', error);
     }
   };
 
-  const handleAttendanceChange = (event) => {
-    setNewAttendance({
-      ...newAttendance,
-      [event.target.name]: event.target.value,
-    });
+  const handleInputChange = (e) => {
+    setNewAttendance({ ...newAttendance, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/attendance', newAttendance); // Replace '/api/attendance' with your actual API endpoint for adding new attendance
+      setAttendanceList([...attendanceList, response.data]);
+      setNewAttendance({ student: '', date: '', status: '' });
+      setSuccessMessage('Attendance submitted successfully');
+
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 5000);
+    } catch (error) {
+      console.error('Error adding new attendance:', error);
+    }
   };
 
   return (
-    <div>
-      <h2>Attendance Page</h2>
+    <div className="attendance-conatiner">
       <div>
-        <h2>Attendance Records</h2>
-        {attendance.length > 0 ? (
-          <ul>
-            {attendance.map((record) => (
-              <li key={record.id}>
-                <strong>Date:</strong> {record.date} - <strong>Status:</strong> {record.status}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div>No attendance records found.</div>
-        )}
+      <h2>Attendance</h2>
+      <table className="attendance-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {attendanceList.map(attendance => (
+            <tr key={attendance.id}>
+              <td>{studentNames[attendance.student]}</td>
+              <td>{attendance.date}</td>
+              <td>{attendance.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       </div>
+
       <div>
-        <h2>Add Attendance</h2>
-        <form onSubmit={handleAttendanceSubmit}>
-          <div>
-            <label>Date:</label>
-            <input type="date" name="date" value={newAttendance.date} onChange={handleAttendanceChange} />
-          </div>
-          <div>
-            <label>Status:</label>
-            <select name="status" value={newAttendance.status} onChange={handleAttendanceChange}>
-              <option value="">Select Status</option>
-              <option value="Present">Present</option>
-              <option value="Absent">Absent</option>
-            </select>
-          </div>
-          <button type="submit">Add</button>
-        </form>
+      <h2>Add New Attendance</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Student:
+          <select name="student" value={newAttendance.student} onChange={handleInputChange} required>
+            <option value="">Select a student</option>
+            {/* Render options dynamically based on available student names */}
+            {Object.entries(studentNames).map(([id, name]) => (
+              <option key={id} value={id}>{name}</option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <label>
+          Date:
+          <input 
+            type="date" 
+            name="date" 
+            value={newAttendance.date} 
+            onChange={handleInputChange} className="attendance-date" required />
+        </label>
+        <br />
+        <label>
+          Status:
+          <select name="status" value={newAttendance.status} onChange={handleInputChange} required>
+            <option value="">Select a status</option>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+          </select>
+        </label>
+        <br />
+        { successMessage && <div className="success-message">{successMessage}</div> }
+        <div className="attendance-button">
+         <button type="submit">Add Attendance</button>
+        </div>
+      </form>
       </div>
     </div>
   );
 };
 
-export default AttendancePage;
+export default AttendanceList;

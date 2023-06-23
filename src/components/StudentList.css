@@ -14,22 +14,41 @@
   }
   
   .student-list th {
-    background-color: #f2f2f2;
+    background-color: #fbfbfb;
     font-weight: bold;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: #4f4f4f;
+    font-family: lato;
   }
   
   .student-list tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #fbfbfb;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    font-family: lato;
+    color: #4f4f4f;
   }
   
   .student-list tbody tr:hover {
     background-color: #eaf6fd;
   }
 
+  table tbody tr:nth-child(odd) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #fbfbfb;
+    color: #4f4f4f;
+    font-family: lato;
+  }
+  
+  
+  
+
   h2 {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: lato;
     font-size: 40px;
-    text-align: center;
+    color: #4f4f4f;
   }
 
   .list-container {
@@ -37,25 +56,22 @@
   }
 
 .new-student {
-  margin: 20px;
   display: flex;
-  justify-content: space-around;
+  margin-bottom: 20px;
+  width: 90%;
+  background-color: #dfdfdf;
 }
 
 .add-student-link {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #337ab7;
-  color: #fff;
+  color: #4f4f4f;
   text-decoration: none;
   border-radius: 5px;
   font-size: 18px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: lato;
 }
 
-.add-student-link:hover {
-  background-color: #23527c;
-}
 
 .search-item {
   width: 250px;
