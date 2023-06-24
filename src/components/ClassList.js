@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "./ClassList.css";
 
 function ClassList() {
   const [classes, setClasses] = useState([]);
@@ -96,52 +97,84 @@ function ClassList() {
 
   return (
     <div>
-      <h2>Classes</h2>
+      <h2 className="page-title">Classes</h2>
       {classes.length === 0 ? (
         <p>No classes found.</p>
       ) : (
-        <ul>
+        <ul className="class-list">
           {classes.map((classItem) => (
-            <li key={classItem._id}>
+            <li key={classItem._id} className="class-item">
               <h3>{classItem.name}</h3>
               <p>Teacher: {classItem.teacher}</p>
               <p>Schedule: {classItem.schedule}</p>
               <p>Subject: {classItem.subject}</p>
-              <button onClick={() => handleEditClick(classItem)}>Edit</button>
-              <button onClick={() => handleDeleteClick(classItem)}>Delete</button>
+              <button className="edit-button" onClick={() => handleEditClick(classItem)}>
+                Edit
+              </button>
+              <button className="delete-button" onClick={() => handleDeleteClick(classItem)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>
       )}
 
-      <div>
+      <div className="class-form">
         <h2>{isAdding ? 'Add' : 'Edit'} Class</h2>
         <form onSubmit={handleSubmit}>
           <label>
             Name:
-            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Please enter class name..." />
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Please enter class name..."
+            />
           </label>
           <br />
           <label>
             Teacher:
-            <input type="text" name="teacher" value={formData.teacher} onChange={handleChange} placeholder="please enter teacher name..." />
+            <input
+              type="text"
+              name="teacher"
+              value={formData.teacher}
+              onChange={handleChange}
+              placeholder="Please enter teacher name..."
+            />
           </label>
           <br />
           <label>
             Schedule:
-            <input type="text" name="schedule" value={formData.schedule} onChange={handleChange} placeholder="Please enter schedule..." />
+            <input
+              type="text"
+              name="schedule"
+              value={formData.schedule}
+              onChange={handleChange}
+              placeholder="Please enter schedule..."
+            />
           </label>
           <br />
           <label>
             Subject:
-            <input type="text" name="subject" value={formData.subject} onChange={handleChange} placeholder="Please enter subject..." />
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              placeholder="Please enter subject..."
+            />
           </label>
           <br />
-          <button type="submit">{isAdding ? 'Add' : 'Update'}</button>
+          <button type="submit" className="submit-button">
+            {isAdding ? 'Add' : 'Update'}
+          </button>
         </form>
       </div>
 
-      <button onClick={handleAddClick}>Add Class</button>
+      <button className="add-button" onClick={handleAddClick}>
+        Add Class
+      </button>
     </div>
   );
 }

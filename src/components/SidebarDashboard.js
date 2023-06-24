@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PieChartOutlined, UserOutlined, CodeOutlined, DesktopOutlined, FileTextFilled } from '@ant-design/icons';
+import { PieChartOutlined, UserOutlined, CodeOutlined, FileTextOutlined, SolutionOutlined, CheckCircleOutlined, DashboardOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
@@ -31,12 +31,12 @@ function getItem(label, key, icon, children, path) {
 }
 
 const items = [
-  getItem('Dashboard', 'home', <PieChartOutlined />, null, '/home'),
+  getItem('Dashboard', 'home', <DashboardOutlined />, null, '/home'),
   getItem('Student', 'students', <UserOutlined />, null, '/students'),
   getItem('Class', 'class', <CodeOutlined />, null, '/class'),
-  getItem('Admission', 'admission', <UserOutlined />, null, '/admission'),
-  getItem('Attendance', 'attendance-report', <DesktopOutlined />, null, '/attendance'),
-  getItem('Attendance Report', '', <DesktopOutlined />, null, '/attendance-report'),
+  getItem('Admission', 'admission', <SolutionOutlined />, null, '/admission'),
+  getItem('Attendance', 'attendance-report', <CheckCircleOutlined />, null, '/attendance'),
+  getItem('Attendance Report', '', <FileTextOutlined />, null, '/attendance-report'),
 ];
 
 const SidebarDashboard = () => {
