@@ -95,6 +95,7 @@ function AttendanceReport() {
           type="date"
           value={startDate}
           onChange={handleStartDateChange}
+          required
         />
       </div>
       <div>
@@ -104,14 +105,17 @@ function AttendanceReport() {
           type="date"
           value={endDate}
           onChange={handleEndDateChange}
+          required
         />
       </div>
       <button onClick={generateReport}>Generate Attendance Report</button>
       {error && <p>{error}</p>}
       <pre>{report.length > 0 ? (
-        <div>{report}</div>
+        <>
+          <span>{report}</span>
+        </>
       ) : (
-        <div>No report available</div>
+        <div>No report available please generate!</div>
       )}</pre>
       {report && (
         <span onClick={downloadReport}>

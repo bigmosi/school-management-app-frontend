@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FileOutlined, PieChartOutlined, UserOutlined, TeamOutlined, DesktopOutlined, ReadOutlined } from '@ant-design/icons';
+import { PieChartOutlined, UserOutlined, CodeOutlined, DesktopOutlined, FileTextFilled } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ClassList from './ClassList';
+
+
 import axios from 'axios';
 import StudentList from './StudentList';
 import StudentForm from './StudentForm';
@@ -28,6 +33,7 @@ function getItem(label, key, icon, children, path) {
 const items = [
   getItem('Dashboard', 'home', <PieChartOutlined />, null, '/home'),
   getItem('Student', 'students', <UserOutlined />, null, '/students'),
+  getItem('Class', 'class', <CodeOutlined />, null, '/class'),
   getItem('Admission', 'admission', <UserOutlined />, null, '/admission'),
   getItem('Attendance', 'attendance-report', <DesktopOutlined />, null, '/attendance'),
   getItem('Attendance Report', '', <DesktopOutlined />, null, '/attendance-report'),
@@ -79,6 +85,7 @@ const SidebarDashboard = () => {
                 <Route path="/home" element={<HomePage students={students} />} />
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
+                <Route path="/class" element={<ClassList />} />
                 <Route path="/add-student" element={<StudentForm />} />
                 <Route path="/admission" element={<AdmissionForm />} />
                 <Route path="/attendance" element={<AttendanceList />} />
