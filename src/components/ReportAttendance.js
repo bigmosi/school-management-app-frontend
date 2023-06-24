@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import "./ReportAttendance.css";
 
 function AttendanceReport() {
   const [report, setReport] = useState("");
@@ -77,10 +78,10 @@ function AttendanceReport() {
 
   return (
     <div>
-      <h2>Attendance Report</h2>
-      <div>
+      <h2 className="page-title">Attendance Report</h2>
+      <div className="form-group">
         <label htmlFor="student">Student:</label>
-        <select id="student" value={selectedStudent} onChange={handleStudentChange}>
+        <select id="student" value={selectedStudent} onChange={handleStudentChange} className="select-box">
           {students.map((student) => (
             <option key={student.id} value={student.id}>
               {student.name}
@@ -88,7 +89,7 @@ function AttendanceReport() {
           ))}
         </select>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="startDate">Start Date:</label>
         <input
           id="startDate"
@@ -96,9 +97,10 @@ function AttendanceReport() {
           value={startDate}
           onChange={handleStartDateChange}
           required
+          className="date-input"
         />
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="endDate">End Date:</label>
         <input
           id="endDate"
@@ -106,20 +108,21 @@ function AttendanceReport() {
           value={endDate}
           onChange={handleEndDateChange}
           required
+          className="date-input"
         />
       </div>
-      <button onClick={generateReport}>Generate Attendance Report</button>
-      {error && <p>{error}</p>}
-      <pre>{report.length > 0 ? (
-        <>
+      <button onClick={generateReport} className="generate-button">Generate Attendance Report</button>
+      {error && <p className="error-message">{error}</p>}
+      <pre className="report">
+        {report.length > 0 ? (
           <span>{report}</span>
-        </>
-      ) : (
-        <div>No report available please generate!</div>
-      )}</pre>
+        ) : (
+          <div>No report available, please generate!</div>
+        )}
+      </pre>
       {report && (
-        <span onClick={downloadReport}>
-            <FontAwesomeIcon icon={faDownload} /> Download Report
+        <span onClick={downloadReport} className="download-link">
+          <FontAwesomeIcon icon={faDownload} /> Download Report
         </span>
       )}
     </div>
