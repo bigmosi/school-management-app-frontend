@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 function AttendanceReport() {
   const [report, setReport] = useState("");
@@ -108,7 +110,9 @@ function AttendanceReport() {
       {error && <p>{error}</p>}
       <pre>{report}</pre>
       {report && (
-        <button onClick={downloadReport}>Download Report</button>
+        <span onClick={downloadReport}>
+            <FontAwesomeIcon icon={faDownload} /> Download Report
+        </span>
       )}
     </div>
   );
