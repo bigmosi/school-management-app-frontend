@@ -64,6 +64,15 @@ function AttendanceReport() {
     setEndDate(event.target.value);
   };
 
+  const downloadReport = () => {
+    const element = document.createElement("a");
+    const file = new Blob([report], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "attendance_report.txt";
+    document.body.appendChild(element);
+    element.click();
+  };
+
   return (
     <div>
       <h2>Attendance Report</h2>
@@ -98,6 +107,9 @@ function AttendanceReport() {
       <button onClick={generateReport}>Generate Attendance Report</button>
       {error && <p>{error}</p>}
       <pre>{report}</pre>
+      {report && (
+        <button onClick={downloadReport}>Download Report</button>
+      )}
     </div>
   );
 }
