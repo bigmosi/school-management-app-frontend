@@ -48,8 +48,6 @@ function ClassList() {
       schedule: classItem.schedule,
       subject: classItem.subject,
     });
-
-    setClassId(classItem._id);
   };
 
   const handleDeleteClick = async (classItem) => {
