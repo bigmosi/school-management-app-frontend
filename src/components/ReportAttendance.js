@@ -108,7 +108,11 @@ function AttendanceReport() {
       </div>
       <button onClick={generateReport}>Generate Attendance Report</button>
       {error && <p>{error}</p>}
-      <pre>{report}</pre>
+      <pre>{report.length > 0 ? (
+        <div>{report}</div>
+      ) : (
+        <div>No report available</div>
+      )}</pre>
       {report && (
         <span onClick={downloadReport}>
             <FontAwesomeIcon icon={faDownload} /> Download Report
