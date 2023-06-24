@@ -11,6 +11,7 @@ import AttendanceList from './AttendanceList';
 import HomePage from '../pages/HomePage';
 import './SidebarDashboard.css';
 import './theme.less';
+import AttendanceReport from './ReportAttendance';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,7 +29,8 @@ const items = [
   getItem('Dashboard', 'home', <PieChartOutlined />, null, '/home'),
   getItem('Student', 'students', <UserOutlined />, null, '/students'),
   getItem('Admission', 'admission', <UserOutlined />, null, '/admission'),
-  getItem('Attendance', 'attendance', <DesktopOutlined />, null, '/attendance'),
+  getItem('Attendance', 'attendance-report', <DesktopOutlined />, null, '/attendance'),
+  getItem('Attendance Report', '', <DesktopOutlined />, null, '/attendance-report'),
 ];
 
 const SidebarDashboard = () => {
@@ -80,6 +82,7 @@ const SidebarDashboard = () => {
                 <Route path="/add-student" element={<StudentForm />} />
                 <Route path="/admission" element={<AdmissionForm />} />
                 <Route path="/attendance" element={<AttendanceList />} />
+                <Route path="/attendance-report" element={<AttendanceReport />} />
               </Routes>
             </div>
           </Content>
