@@ -1,0 +1,35 @@
+.submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .clear-button {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .teacher-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .teacher-item {
+    margin-bottom: 1rem;
+  }
+  
+  .edit-button,
+  .delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-left: 1rem;
+  }
+  
