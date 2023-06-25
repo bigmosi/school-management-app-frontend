@@ -46,3 +46,7 @@
   font-weight: bold;
   text-align: center;
 }
+
+.student-selection {
+  cursor: pointer;
+}

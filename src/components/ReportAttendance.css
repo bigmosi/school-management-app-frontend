@@ -1,0 +1,57 @@
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .select-box {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .date-input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .generate-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .error-message {
+    color: #ff0000;
+  }
+  
+  .report {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: auto;
+  }
+  
+  .download-link {
+    color: #007bff;
+    cursor: pointer;
+  }
+  
+  .download-link:hover {
+    text-decoration: underline;
+  }
+  

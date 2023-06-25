@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FileOutlined, PieChartOutlined, UserOutlined, TeamOutlined, DesktopOutlined, ReadOutlined } from '@ant-design/icons';
+import { PieChartOutlined, UserOutlined, CodeOutlined, FileTextOutlined, SolutionOutlined, CheckCircleOutlined, DashboardOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ClassList from './ClassList';
+
+
 import axios from 'axios';
 import StudentList from './StudentList';
 import StudentForm from './StudentForm';
@@ -11,6 +16,7 @@ import AttendanceList from './AttendanceList';
 import HomePage from '../pages/HomePage';
 import './SidebarDashboard.css';
 import './theme.less';
+import AttendanceReport from './ReportAttendance';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -25,10 +31,12 @@ function getItem(label, key, icon, children, path) {
 }
 
 const items = [
-  getItem('Dashboard', 'home', <PieChartOutlined />, null, '/home'),
+  getItem('Dashboard', 'home', <DashboardOutlined />, null, '/home'),
   getItem('Student', 'students', <UserOutlined />, null, '/students'),
-  getItem('Admission', 'admission', <UserOutlined />, null, '/admission'),
-  getItem('Attendance', 'attendance', <DesktopOutlined />, null, '/attendance'),
+  getItem('Class', 'class', <CodeOutlined />, null, '/class'),
+  getItem('Admission', 'admission', <SolutionOutlined />, null, '/admission'),
+  getItem('Attendance', 'attendance-report', <CheckCircleOutlined />, null, '/attendance'),
+  getItem('Attendance Report', '', <FileTextOutlined />, null, '/attendance-report'),
 ];
 
 const SidebarDashboard = () => {
@@ -77,9 +85,11 @@ const SidebarDashboard = () => {
                 <Route path="/home" element={<HomePage students={students} />} />
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
+                <Route path="/class" element={<ClassList />} />
                 <Route path="/add-student" element={<StudentForm />} />
                 <Route path="/admission" element={<AdmissionForm />} />
                 <Route path="/attendance" element={<AttendanceList />} />
+                <Route path="/attendance-report" element={<AttendanceReport />} />
               </Routes>
             </div>
           </Content>
