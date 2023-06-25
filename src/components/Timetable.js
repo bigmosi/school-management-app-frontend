@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "./Timetable.css";
 
 function TimetableManagement() {
   const [schedules, setSchedules] = useState([]);
@@ -112,9 +113,9 @@ function TimetableManagement() {
   };
 
   return (
-    <div>
-      <h2>Timetable Management</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="timetable-management">
+      <h2 className="timetable-management__title">Timetable Management</h2>
+      <form className="timetable-management__form" onSubmit={handleSubmit}>
         <label htmlFor="day">Day:</label>
        <select
          id="day"
@@ -211,8 +212,8 @@ function TimetableManagement() {
           Clear
         </button>
       </form>
-      <div>
-        <h3>Schedules:</h3>
+      <div className="timetable-management__schedules">
+        <h3 className="timetable-management__schedules-title">Schedules:</h3>
         {schedules.length === 0 ? (
           <p>No schedules available.</p>
         ) : (
