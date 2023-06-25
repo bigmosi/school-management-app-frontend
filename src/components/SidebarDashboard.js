@@ -71,7 +71,11 @@ const SidebarDashboard = () => {
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
-          <div className="demo-logo-vertical" />
+          <div className="demo-logo-vertical" style={{ border: '1px solid #ccc', padding: '10px' }}>
+            {/* Add your image component or placeholder here */}
+            <img src="logo.png" alt="Logo" style={{ color: "#fff", fontFamily: "lato"}} />
+            <h3 style={{ color: "#fff", fontFamily: "lato", fontSize: "18px", textAlign: "center" }}>Admin</h3>
+          </div>
           <Menu theme="dark" defaultSelectedKeys={['home']} mode="inline">
             {items.map(item => (
               <Menu.Item key={item.key} icon={item.icon}>
