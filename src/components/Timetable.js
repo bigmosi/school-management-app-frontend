@@ -68,7 +68,7 @@ function TimetableManagement() {
       endTime: schedule.endTime,
       subjectId: schedule.subject._id,
       teacherId: schedule.teacher._id,
-      classId: schedule.class._id // Set classId in formData
+      classId: schedule.class ? schedule.class.classId: '' 
     });
   };
 
