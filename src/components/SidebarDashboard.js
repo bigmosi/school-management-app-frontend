@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PieChartOutlined, UserOutlined, CodeOutlined, FileTextOutlined, SolutionOutlined, CheckCircleOutlined, DashboardOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ClassList from './ClassList';
-
-
 import axios from 'axios';
 import StudentList from './StudentList';
 import StudentForm from './StudentForm';
@@ -17,6 +13,7 @@ import HomePage from '../pages/HomePage';
 import './SidebarDashboard.css';
 import './theme.less';
 import AttendanceReport from './ReportAttendance';
+import Timetable from './Timetable';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -36,7 +33,8 @@ const items = [
   getItem('Class', 'class', <CodeOutlined />, null, '/class'),
   getItem('Admission', 'admission', <SolutionOutlined />, null, '/admission'),
   getItem('Attendance', 'attendance-report', <CheckCircleOutlined />, null, '/attendance'),
-  getItem('Attendance Report', '', <FileTextOutlined />, null, '/attendance-report'),
+  getItem('Attendance Report', <FileTextOutlined />, null, '/attendance-report'),
+  getItem('Time Table', '', <FileTextOutlined />, null, '/time-table'),
 ];
 
 const SidebarDashboard = () => {
@@ -90,6 +88,7 @@ const SidebarDashboard = () => {
                 <Route path="/admission" element={<AdmissionForm />} />
                 <Route path="/attendance" element={<AttendanceList />} />
                 <Route path="/attendance-report" element={<AttendanceReport />} />
+                <Route path="/time-table" element={<Timetable />} />
               </Routes>
             </div>
           </Content>
