@@ -3,7 +3,7 @@ import { Card, Col, Row } from 'antd';
 import './Home.css';
 
 
-const HomePage = ({students}) => {
+const HomePage = ({students, teachers}) => {
   return (
     <div className="homepage">
 <Row gutter={16}>
@@ -14,7 +14,7 @@ const HomePage = ({students}) => {
     </Col>
     <Col span={8}>
       <Card title={<span className='teacher-container'>Teachers</span>} bordered={false} className="teacher-container">
-        100
+        {teachers.length}
       </Card>
     </Col>
     <Col span={8}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PieChartOutlined, UserOutlined, CodeOutlined, FileTextOutlined, SolutionOutlined, CheckCircleOutlined, DashboardOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, Menu } from 'antd';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ClassList from './ClassList';
 import axios from 'axios';
@@ -14,35 +14,27 @@ import './SidebarDashboard.css';
 import './theme.less';
 import AttendanceReport from './ReportAttendance';
 import Timetable from './Timetable';
+import TeacherManagement from './Teacher';
+import SubjectManagement from './Subject';
 
 const { Header, Content, Footer, Sider } = Layout;
-
-function getItem(label, key, icon, children, path) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    path,
-  };
-}
-
-const items = [
-  getItem('Dashboard', 'home', <DashboardOutlined />, null, '/home'),
-  getItem('Student', 'students', <UserOutlined />, null, '/students'),
-  getItem('Class', 'class', <CodeOutlined />, null, '/class'),
-  getItem('Admission', 'admission', <SolutionOutlined />, null, '/admission'),
-  getItem('Attendance', 'attendance-report', <CheckCircleOutlined />, null, '/attendance'),
-  getItem('Attendance Report', <FileTextOutlined />, null, '/attendance-report'),
-  getItem('Time Table', '', <FileTextOutlined />, null, '/time-table'),
-];
 
 const SidebarDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [students, setStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: ''
+  });
 
   useEffect(() => {
+  }, []);
+
+  
+  useEffect(() => {
     fetchStudents();
+    fetchTeachers();
   }, []);
 
   const fetchStudents = async () => {
@@ -54,15 +46,31 @@ const SidebarDashboard = () => {
     }
   };
 
+  const fetchTeachers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/teachers');
+      setTeachers(response.data);
+    } catch (error) {
+      console.error('Error fetching teachers:', error);
+    }
+  };
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const items = [
+    { key: 'home', icon: <DashboardOutlined />, label: 'Dashboard', path: '/home' },
+    { key: 'students', icon: <UserOutlined />, label: 'Student', path: '/students' },
+    { key: 'class', icon: <CodeOutlined />, label: 'Class', path: '/class' },
+    { key: 'admission', icon: <SolutionOutlined />, label: 'Admission', path: '/admission' },
+    { key: 'attendance', icon: <CheckCircleOutlined />, label: 'Attendance', path: '/attendance' },
+    { key: 'attendance-report', icon: <FileTextOutlined />, label: 'Attendance Report', path: '/attendance-report' },
+    { key: 'time-table', icon: <FileTextOutlined />, label: 'Time Table', path: '/time-table' },
+    { key: 'teacher', icon: <FileTextOutlined />, label: 'Teacher', path: '/teacher' },
+    { key: 'subject', icon: <FileTextOutlined />, label: 'Subject', path: '/subject' },
+  ];
 
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
           <div className="demo-logo-vertical" />
           <Menu theme="dark" defaultSelectedKeys={['home']} mode="inline">
             {items.map(item => (
@@ -73,14 +81,14 @@ const SidebarDashboard = () => {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }} />
+          <Header style={{ padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>All Students</Breadcrumb.Item>
             </Breadcrumb>
             <div>
               <Routes>
-                <Route path="/home" element={<HomePage students={students} />} />
+                <Route path="/home" element={<HomePage students={students} teachers={teachers} />} />
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
                 <Route path="/class" element={<ClassList />} />
@@ -89,6 +97,9 @@ const SidebarDashboard = () => {
                 <Route path="/attendance" element={<AttendanceList />} />
                 <Route path="/attendance-report" element={<AttendanceReport />} />
                 <Route path="/time-table" element={<Timetable />} />
+                <Route path="/teacher" element={<TeacherManagement 
+                teachers={teachers} formData={formData} setFormData={setFormData} fetchTeachers={fetchTeachers} />} />
+                <Route path="/subject" element={<SubjectManagement />} />
               </Routes>
             </div>
           </Content>
