@@ -115,18 +115,22 @@ function TimetableManagement() {
     <div>
       <h2>Timetable Management</h2>
       <form onSubmit={handleSubmit}>
-        {/* Form fields */}
-        <div>
-          <label htmlFor="day">Day:</label>
-          <input
-            type="text"
-            id="day"
-            name="day"
-            value={formData.day}
-            onChange={(e) => setFormData({ ...formData, day: e.target.value })}
-            required
-          />
-        </div>
+        <label htmlFor="day">Day:</label>
+       <select
+         id="day"
+         name="day"
+         value={formData.day}
+         onChange={(e) => setFormData({ ...formData, day: e.target.value })}
+         required
+         >
+            <option value="">Select Day</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+        </select>
+
         <div>
           <label htmlFor="startTime">Start Time:</label>
           <input
@@ -136,6 +140,7 @@ function TimetableManagement() {
             value={formData.startTime}
             onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
             required
+            placeholder="Please enter start time"
           />
         </div>
         <div>
@@ -147,6 +152,7 @@ function TimetableManagement() {
             value={formData.endTime}
             onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
             required
+            placeholder="Please enter end time"
           />
         </div>
         <div>
