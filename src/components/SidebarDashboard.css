@@ -17,5 +17,15 @@
 .ant-menu-item:hover {
   background-color: #ffb800;
 }
+
+.logo {
+  border-radius: 50%;
+  width: 80%;
+}
+
+.demo-logo-vertical {
+  display: flex;
+  justify-content: center;
+}
   
   

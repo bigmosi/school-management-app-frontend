@@ -16,6 +16,7 @@ import AttendanceReport from './ReportAttendance';
 import Timetable from './Timetable';
 import TeacherManagement from './Teacher';
 import SubjectManagement from './Subject';
+import { useAuth } from '../auth/useAuth';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -55,33 +56,65 @@ const SidebarDashboard = () => {
     }
   };
 
+  const roles = {
+    ADMIN: 'admin',
+    TEACHER: 'teacher',
+    STUDENT: 'student',
+  };
+
+  const permissions = {
+    DASHBOARD: 'dashboard',
+    STUDENTS: 'students',
+    TEACHERS: 'teachers',
+  };
+
+  const { user } = useAuth();
+
   const items = [
-    { key: 'home', icon: <DashboardOutlined />, label: 'Dashboard', path: '/home' },
-    { key: 'students', icon: <UserOutlined />, label: 'Student', path: '/students' },
-    { key: 'class', icon: <CodeOutlined />, label: 'Class', path: '/class' },
-    { key: 'admission', icon: <SolutionOutlined />, label: 'Admission', path: '/admission' },
-    { key: 'attendance', icon: <CheckCircleOutlined />, label: 'Attendance', path: '/attendance' },
-    { key: 'attendance-report', icon: <FileTextOutlined />, label: 'Attendance Report', path: '/attendance-report' },
-    { key: 'time-table', icon: <FileTextOutlined />, label: 'Time Table', path: '/time-table' },
-    { key: 'teacher', icon: <FileTextOutlined />, label: 'Teacher', path: '/teacher' },
-    { key: 'subject', icon: <FileTextOutlined />, label: 'Subject', path: '/subject' },
+    { key: 'home', icon: <DashboardOutlined />, label: 'Dashboard', path: '/home', roles: [roles.ADMIN, roles.TEACHER, roles.STUDENT] },
+    { key: 'students', icon: <UserOutlined />, label: 'Student', path: '/students', roles: [roles.ADMIN, roles.TEACHER] },
+    { key: 'teachers', icon: <CodeOutlined />, label: 'Teacher', path: '/teachers', roles: [roles.ADMIN] },
   ];
+
+  const renderMenuItems = () => {
+    const filteredItems = items.filter(item => {
+      if (!item.roles.includes(user?.role)) {
+        return false;
+      }
+
+      switch (item.key) {
+        case 'home':
+          return user?.permissions.includes(permissions.DASHBOARD);
+        case 'students':
+          return user?.permissions.includes(permissions.STUDENTS);
+        case 'teachers':
+          return user?.permissions.includes(permissions.TEACHERS);
+        default:
+          return true;
+      }
+    });
+
+    return filteredItems.map(item => (
+      <Menu.Item key={item.key} icon={item.icon}>
+        <Link to={item.path}>{item.label}</Link>
+      </Menu.Item>
+    ));
+  };
 
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
-          <div className="demo-logo-vertical" style={{ border: '1px solid #ccc', padding: '10px' }}>
-            {/* Add your image component or placeholder here */}
-            <img src="logo.png" alt="Logo" style={{ color: "#fff", fontFamily: "lato"}} />
-            <h3 style={{ color: "#fff", fontFamily: "lato", fontSize: "18px", textAlign: "center" }}>Admin</h3>
+          <div className="demo-logo-vertical" style={{ padding: '10px' }}>
+            <img 
+              src="/images/profile.jpeg" 
+              alt="Logo" 
+              style={{ color: "#fff", fontFamily: "lato"}}
+              className="logo"
+               />
           </div>
           <Menu theme="dark" defaultSelectedKeys={['home']} mode="inline">
-            {items.map(item => (
-              <Menu.Item key={item.key} icon={item.icon}>
-                <Link to={item.path}>{item.label}</Link>
-              </Menu.Item>
-            ))}
+            {renderMenuItems()}
           </Menu>
         </Sider>
         <Layout>
@@ -92,7 +125,7 @@ const SidebarDashboard = () => {
             </Breadcrumb>
             <div>
               <Routes>
-                <Route path="/home" element={<HomePage students={students} teachers={teachers} />} />
+              <Route path="/home" element={<HomePage students={students} teachers={teachers} />} />
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
                 <Route path="/class" element={<ClassList />} />
@@ -101,9 +134,9 @@ const SidebarDashboard = () => {
                 <Route path="/attendance" element={<AttendanceList />} />
                 <Route path="/attendance-report" element={<AttendanceReport />} />
                 <Route path="/time-table" element={<Timetable />} />
-                <Route path="/teacher" element={<TeacherManagement 
-                teachers={teachers} formData={formData} setFormData={setFormData} fetchTeachers={fetchTeachers} />} />
+                <Route path="/teacher" element={<TeacherManagement teachers={teachers} formData={formData} setFormData={setFormData} fetchTeachers={fetchTeachers} />} />
                 <Route path="/subject" element={<SubjectManagement />} />
+
               </Routes>
             </div>
           </Content>
@@ -115,3 +148,4 @@ const SidebarDashboard = () => {
 };
 
 export default SidebarDashboard;
+
