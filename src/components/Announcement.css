@@ -4,6 +4,12 @@
     border: 12px solid red;
   }
 
+  .container {
+    display: flex;
+    border: 2px solid red;
+    justify-content: center;
+  }
+
   .ant-modal-content {
     max-height: 800px;
     width: 900px;
@@ -36,11 +42,6 @@
   }
 
 
-element.style {
-    width: 800px;
-    transform-origin: -77px 20px;
-}
-
 .announcement-list {
     margin-top: 20px;
   }
@@ -67,5 +68,36 @@ element.style {
     font-size: 20px;
     margin-bottom: 5px;
   }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination .ant-pagination-item-active a {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff;
+  }
+  
+  .pagination .ant-pagination-item-active a:hover {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff;
+  }
+
+.list-container {
+    border:  2px solid red;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.list-item {
+    background-color: #fff;
+    margin: 10px;
+    padding: 15px;
+}
+
   
   

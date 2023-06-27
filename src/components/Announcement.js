@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Modal, Button } from "antd";
+import { Modal, Button, notification, Badge, Pagination } from "antd";
+import { BellOutlined } from "@ant-design/icons";
 import "./Announcement.css";
 
 
@@ -57,34 +58,70 @@ const AnnouncementForm = ({ visible, onSubmit, onCancel }) => {
 const Announcement = () => {
   const [showModal, setShowModal] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
+  const [unreadAnnouncements, setUnreadAnnouncements] = useState([]);
+  const [readAnnouncementIds, setReadAnnouncementIds] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [announcementsPerPage] = useState(4);
 
   useEffect(() => {
     fetchAnnouncements();
   }, []);
 
+  useEffect(() => {
+    // Filter unread announcements from the list
+    const filteredAnnouncements = announcements.filter(
+      (announcement) =>
+        !announcement.read && !readAnnouncementIds.includes(announcement.id)
+    );
+    setUnreadAnnouncements(filteredAnnouncements);
+  }, [announcements, readAnnouncementIds]);
+
+  useEffect(() => {
+    const storedReadAnnouncementIds = JSON.parse(localStorage.getItem("readAnnouncementIds"));
+    if (storedReadAnnouncementIds) {
+      setReadAnnouncementIds(storedReadAnnouncementIds);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("readAnnouncementIds", JSON.stringify(readAnnouncementIds));
+  }, [readAnnouncementIds]);
+
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/annoucements");
-      setAnnouncements(response.data);
+      const response = await axios.get("http://localhost:8080/api/announcements");
+      const fetchedAnnouncements = response.data;
+      setAnnouncements(fetchedAnnouncements);
     } catch (error) {
-      console.error("Error fetching announcements");
+      console.error("Error fetching announcements:", error);
     }
   };
 
   const handleFormSubmit = async (formData) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/annoucements", formData);
+      const response = await axios.post("http://localhost:8080/api/announcements", formData);
       alert("Announcement created successfully");
-      fetchAnnouncements(); // Refresh the announcements after creating a new one
+      fetchAnnouncements();
       setShowModal(false);
     } catch (error) {
       console.error("Error creating announcement");
-      alert("Error occurred announcement.");
+      alert("Error occurred while creating the announcement.");
     }
   };
 
+  const markAnnouncementAsRead = (announcementId) => {
+    setReadAnnouncementIds((prevIds) => [...prevIds, announcementId]);
+  };
+
+  // Pagination
+  const indexOfLastAnnouncement = currentPage * announcementsPerPage;
+  const indexOfFirstAnnouncement = indexOfLastAnnouncement - announcementsPerPage;
+  const currentAnnouncements = announcements.slice(indexOfFirstAnnouncement, indexOfLastAnnouncement);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
-    <div>
+    <div className="container">
       <Button type="primary" onClick={() => setShowModal(true)}>
         Create Announcement
       </Button>
@@ -95,20 +132,36 @@ const Announcement = () => {
         onCancel={() => setShowModal(false)}
       />
 
-      <div  className="announcement-list">
+      <div className="announcement-list">
         <h2>All Announcements</h2>
-        {announcements.length === 0 ? (
+        {currentAnnouncements.length === 0 ? (
           <p>No announcements available</p>
         ) : (
-          <ul>
-            {announcements.map((announcement) => (
-              <li key={announcement.id}>
+          <ul className="list-container">
+            {currentAnnouncements.map((announcement) => (
+              <li key={announcement.id} className="list-item">
                 <h3>{announcement.title}</h3>
                 <p>{announcement.content}</p>
+                {!readAnnouncementIds.includes(announcement.id) && (
+                  <Badge count="New" className="announcement-badge" />
+                )}
+                <Button onClick={() => markAnnouncementAsRead(announcement.id)}>
+                  Mark as Read
+                </Button>
               </li>
             ))}
           </ul>
         )}
+        <Pagination
+          current={currentPage}
+          pageSize={announcementsPerPage}
+          total={announcements.length}
+          onChange={paginate}
+          showSizeChanger
+          pageSizeOptions={['10', '20', '30']}
+          showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+          className="pagination"
+        />
       </div>
     </div>
   );
