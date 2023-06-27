@@ -1,0 +1,71 @@
+/* Modal styles */
+.announcement-modal {
+    width: 800px;
+    border: 12px solid red;
+  }
+
+  .ant-modal-content {
+    max-height: 800px;
+    width: 900px;
+    }
+ 
+  /* Form styles */
+  .announcement-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input,
+  textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  button {
+    margin-top: 16px;
+  }
+
+
+element.style {
+    width: 800px;
+    transform-origin: -77px 20px;
+}
+
+.announcement-list {
+    margin-top: 20px;
+  }
+  
+  .announcement-list h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .announcement-list p {
+    font-size: 16px;
+  }
+  
+  .announcement-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .announcement-list li {
+    margin-bottom: 20px;
+  }
+  
+  .announcement-list li h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  
+  
