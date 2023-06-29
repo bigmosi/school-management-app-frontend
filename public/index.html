@@ -16,6 +16,7 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
+
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -41,5 +42,25 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+        <!-- Firebase App (the core Firebase SDK) is always required -->
+        <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js"></script>
+        <!-- Add the Firebase products you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-firestore.js"></script>
+        <script>
+          // Paste the Firebase SDK snippet code here
+          const firebaseConfig = {
+            apiKey: "AIzaSyDjr7smk9qXU4-YImW6rd4Rnfk3Sk7b1JE",
+            authDomain: "school-management-app-bfc35.firebaseapp.com",
+            projectId: "school-management-app-bfc35",
+            storageBucket: "school-management-app-bfc35.appspot.com",
+            messagingSenderId: "33071331667",
+            appId: "1:33071331667:web:efaa01b9314c3f682549a6",
+            measurementId: "G-CB4Q0YY0TZ"
+            };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+        </script>
+        
   </body>
 </html>

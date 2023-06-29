@@ -17,6 +17,7 @@ import Timetable from './Timetable';
 import TeacherManagement from './Teacher';
 import SubjectManagement from './Subject';
 import Announcement from './Announcement';
+import Messaging from './Messaging';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,6 +29,16 @@ const SidebarDashboard = () => {
     name: '',
     email: ''
   });
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDjr7smk9qXU4-YImW6rd4Rnfk3Sk7b1JE",
+    authDomain: "school-management-app-bfc35.firebaseapp.com",
+    projectId: "school-management-app-bfc35",
+    storageBucket: "school-management-app-bfc35.appspot.com",
+    messagingSenderId: "33071331667",
+    appId: "1:33071331667:web:efaa01b9314c3f682549a6",
+    measurementId: "G-CB4Q0YY0TZ"
+    };
 
   useEffect(() => {
   }, []);
@@ -62,6 +73,7 @@ const SidebarDashboard = () => {
     { key: 'announcement', icon: <FileTextOutlined />, label: 'Announcement', path: '/announcement' },
     { key: 'class', icon: <CodeOutlined />, label: 'Class', path: '/class' },
     { key: 'admission', icon: <SolutionOutlined />, label: 'Admission', path: '/admission' },
+    { key: 'message', icon: <FileTextOutlined />, label: 'Message', path: '/message' },
     { key: 'attendance', icon: <CheckCircleOutlined />, label: 'Attendance', path: '/attendance' },
     { key: 'attendance-report', icon: <FileTextOutlined />, label: 'Attendance Report', path: '/attendance-report' },
     { key: 'time-table', icon: <FileTextOutlined />, label: 'Time Table', path: '/time-table' },
@@ -94,6 +106,7 @@ const SidebarDashboard = () => {
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
                 <Route path="/class" element={<ClassList />} />
+                <Route path="/message" element={<Messaging firebaseConfig={firebaseConfig} />} />
                 <Route path="/announcement" element={<Announcement />} />
                 <Route path="/add-student" element={<StudentForm />} />
                 <Route path="/admission" element={<AdmissionForm />} />
