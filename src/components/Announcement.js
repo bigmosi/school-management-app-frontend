@@ -60,8 +60,6 @@ const Announcement = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [unreadAnnouncements, setUnreadAnnouncements] = useState([]);
   const [readAnnouncementIds, setReadAnnouncementIds] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [announcementsPerPage] = useState(4);
 
   useEffect(() => {
     fetchAnnouncements();
@@ -113,15 +111,8 @@ const Announcement = () => {
     setReadAnnouncementIds((prevIds) => [...prevIds, announcementId]);
   };
 
-  // Pagination
-  const indexOfLastAnnouncement = currentPage * announcementsPerPage;
-  const indexOfFirstAnnouncement = indexOfLastAnnouncement - announcementsPerPage;
-  const currentAnnouncements = announcements.slice(indexOfFirstAnnouncement, indexOfLastAnnouncement);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   return (
-    <div className="container">
+    <div>
       <Button type="primary" onClick={() => setShowModal(true)}>
         Create Announcement
       </Button>
@@ -134,12 +125,12 @@ const Announcement = () => {
 
       <div className="announcement-list">
         <h2>All Announcements</h2>
-        {currentAnnouncements.length === 0 ? (
+        {announcements.length === 0 ? (
           <p>No announcements available</p>
         ) : (
-          <ul className="list-container">
-            {currentAnnouncements.map((announcement) => (
-              <li key={announcement.id} className="list-item">
+          <ul className="container">
+            {announcements.map((announcement) => (
+              <li key={announcement.id} className="list-container">
                 <h3>{announcement.title}</h3>
                 <p>{announcement.content}</p>
                 {!readAnnouncementIds.includes(announcement.id) && (
@@ -152,19 +143,10 @@ const Announcement = () => {
             ))}
           </ul>
         )}
-        <Pagination
-          current={currentPage}
-          pageSize={announcementsPerPage}
-          total={announcements.length}
-          onChange={paginate}
-          showSizeChanger
-          pageSizeOptions={['10', '20', '30']}
-          showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-          className="pagination"
-        />
       </div>
     </div>
   );
 };
+
 
 export default Announcement;

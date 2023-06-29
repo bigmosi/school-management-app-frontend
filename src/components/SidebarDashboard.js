@@ -59,6 +59,7 @@ const SidebarDashboard = () => {
   const items = [
     { key: 'home', icon: <DashboardOutlined />, label: 'Dashboard', path: '/home' },
     { key: 'students', icon: <UserOutlined />, label: 'Student', path: '/students' },
+    { key: 'announcement', icon: <FileTextOutlined />, label: 'Announcement', path: '/announcement' },
     { key: 'class', icon: <CodeOutlined />, label: 'Class', path: '/class' },
     { key: 'admission', icon: <SolutionOutlined />, label: 'Admission', path: '/admission' },
     { key: 'attendance', icon: <CheckCircleOutlined />, label: 'Attendance', path: '/attendance' },
@@ -66,8 +67,6 @@ const SidebarDashboard = () => {
     { key: 'time-table', icon: <FileTextOutlined />, label: 'Time Table', path: '/time-table' },
     { key: 'teacher', icon: <FileTextOutlined />, label: 'Teacher', path: '/teacher' },
     { key: 'subject', icon: <FileTextOutlined />, label: 'Subject', path: '/subject' },
-    { key: 'announcement', icon: <FileTextOutlined />, label: 'Announcement', path: '/announcement' },
-
   ];
 
   return (
@@ -95,6 +94,7 @@ const SidebarDashboard = () => {
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
                 <Route path="/class" element={<ClassList />} />
+                <Route path="/announcement" element={<Announcement />} />
                 <Route path="/add-student" element={<StudentForm />} />
                 <Route path="/admission" element={<AdmissionForm />} />
                 <Route path="/attendance" element={<AttendanceList />} />
@@ -103,7 +103,6 @@ const SidebarDashboard = () => {
                 <Route path="/teacher" element={<TeacherManagement 
                 teachers={teachers} formData={formData} setFormData={setFormData} fetchTeachers={fetchTeachers} />} />
                 <Route path="/subject" element={<SubjectManagement />} />
-                <Route path="/announcement" element={<Announcement />} />
               </Routes>
             </div>
           </Content>
