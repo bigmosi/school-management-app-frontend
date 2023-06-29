@@ -6,6 +6,7 @@ function SubjectManagement() {
   const [subjects, setSubjects] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [formData, setFormData] = useState({
+    id: '', // Add a default value for the subject id
     name: '',
     code: '',
     teacherId: ''
@@ -19,6 +20,7 @@ function SubjectManagement() {
   const fetchSubjects = async () => {
     try {
       const response = await axios.get('http://localhost:8080/api/subjects');
+      console.log(response.data);
       setSubjects(response.data);
     } catch (error) {
       console.error('Error fetching subjects:', error);
@@ -37,6 +39,7 @@ function SubjectManagement() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      console.log('Form Data:', formData); 
       if (formData.id) {
         // Update subject
         await axios.put(
@@ -75,6 +78,7 @@ function SubjectManagement() {
 
   const clearFormData = () => {
     setFormData({
+      id: '', // Reset the subject id to an empty string
       name: '',
       code: '',
       teacherId: ''
@@ -85,7 +89,7 @@ function SubjectManagement() {
     <div>
       <h2>Subject Management</h2>
       <form onSubmit={handleSubmit} className="form">
-        <div className="form-field">
+      <div className="form-field">
           <label htmlFor="name">Name:</label>
           <input
             type="text"
@@ -142,23 +146,26 @@ function SubjectManagement() {
           </button>
         </div>
       </form>
-
       <h3>Subjects:</h3>
-      {subjects.length === 0 ? (
-        <p>No subjects available.</p>
-      ) : (
-        <ul className="subject-list">
-          {subjects.map((subject) => (
-            <li key={subject._id} className="subject-item">
-              {subject.name} - {subject.code} - {subject.teacher.name}
-              <button onClick={() => handleEdit(subject)}>Edit</button>
-              <button onClick={() => handleDelete(subject._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+{subjects.length === 0 ? (
+  <p>No subjects available.</p>
+) : (
+  <ul className="subject-list">
+    {subjects.map((subject) => {
+      const teacher = teachers.find((t) => t._id === subject.teacher);
+      return (
+        <li key={subject._id} className="subject-item">
+          {subject.name} - {subject.code} - {teacher ? teacher.name : ''}
+          <button onClick={() => handleEdit(subject)}>Edit</button>
+          <button onClick={() => handleDelete(subject._id)}>Delete</button>
+        </li>
+      );
+    })}
+  </ul>
+)}
+   </div>
   );
 }
 
 export default SubjectManagement;
+
