@@ -16,6 +16,7 @@ import AttendanceReport from './ReportAttendance';
 import Timetable from './Timetable';
 import TeacherManagement from './Teacher';
 import SubjectManagement from './Subject';
+import Announcement from './Announcement';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -58,6 +59,7 @@ const SidebarDashboard = () => {
   const items = [
     { key: 'home', icon: <DashboardOutlined />, label: 'Dashboard', path: '/home' },
     { key: 'students', icon: <UserOutlined />, label: 'Student', path: '/students' },
+    { key: 'announcement', icon: <FileTextOutlined />, label: 'Announcement', path: '/announcement' },
     { key: 'class', icon: <CodeOutlined />, label: 'Class', path: '/class' },
     { key: 'admission', icon: <SolutionOutlined />, label: 'Admission', path: '/admission' },
     { key: 'attendance', icon: <CheckCircleOutlined />, label: 'Attendance', path: '/attendance' },
@@ -92,6 +94,7 @@ const SidebarDashboard = () => {
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
                 <Route path="/class" element={<ClassList />} />
+                <Route path="/announcement" element={<Announcement />} />
                 <Route path="/add-student" element={<StudentForm />} />
                 <Route path="/admission" element={<AdmissionForm />} />
                 <Route path="/attendance" element={<AttendanceList />} />
