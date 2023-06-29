@@ -60,6 +60,8 @@ const Announcement = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [unreadAnnouncements, setUnreadAnnouncements] = useState([]);
   const [readAnnouncementIds, setReadAnnouncementIds] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     fetchAnnouncements();
@@ -87,11 +89,38 @@ const Announcement = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/announcements");
+      const response = await axios.get("http://localhost:8080/api/announcements", {
+        params: { page },
+      });
       const fetchedAnnouncements = response.data;
-      setAnnouncements(fetchedAnnouncements);
+      setAnnouncements((prevAnnouncements) => [
+        ...prevAnnouncements,
+        ...fetchedAnnouncements,
+      ]);
+      
+      // Check if there are more announcements to load
+      setHasMore(fetchedAnnouncements.length > 0);
     } catch (error) {
       console.error("Error fetching announcements:", error);
+    }
+  };
+  
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight
+      ) {
+        loadMoreAnnouncements();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+  }, []);
+
+  const loadMoreAnnouncements = () => {
+    if (hasMore) {
+      setPage((prevPage) => prevPage + 1);
     }
   };
 
@@ -143,6 +172,9 @@ const Announcement = () => {
             ))}
           </ul>
         )}
+      </div>
+      <div className="loading-more">
+        {hasMore && <p>Loading more announcements...</p>}
       </div>
     </div>
   );
