@@ -83,6 +83,11 @@
 }
 
 .progress-bar {
-    width: 30%;
+    width: 20%;
+}
+
+.progress-bar h2 {
+  font-size: 30px;
+  margin-top: 0;
 }
   

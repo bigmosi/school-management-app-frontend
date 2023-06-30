@@ -23,8 +23,9 @@ const HomePage = ({students, teachers, attendancePercent}) => {
       </Card>
     </Col>
   </Row>
-  <Card title="Attendance" bordered={false} className="attendance-container  progress-bar">
-        <Progress type="dashboard" percent={attendancePercent} format={() => `${attendancePercent.toFixed(2)}%`} />
+  <Card className="attendance-container  progress-bar">
+    <h2>Attendance</h2>
+    <Progress type="dashboard" percent={attendancePercent} format={() => `${attendancePercent.toFixed(2)}%`} />
   </Card>
   </div>
   );
