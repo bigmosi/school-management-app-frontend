@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./Subject.css";
+import { Table, Modal, Form, Input, Button, Select } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import './Subject.css';
+
+const { Option } = Select;
 
 function SubjectManagement() {
   const [subjects, setSubjects] = useState([]);
@@ -10,6 +14,7 @@ function SubjectManagement() {
     code: '',
     teacherId: ''
   });
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     fetchSubjects();
@@ -34,8 +39,7 @@ function SubjectManagement() {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
       if (formData.id) {
         // Update subject
@@ -49,6 +53,7 @@ function SubjectManagement() {
       }
       fetchSubjects();
       clearFormData();
+      setModalVisible(false);
     } catch (error) {
       console.error('Error submitting subject:', error);
     }
@@ -61,6 +66,7 @@ function SubjectManagement() {
       code: subject.code,
       teacherId: subject.teacher._id
     });
+    setModalVisible(true);
   };
 
   const handleDelete = async (subjectId) => {
@@ -81,81 +87,118 @@ function SubjectManagement() {
     });
   };
 
+  const columns = [
+    {
+      title: 'Subjects',
+      dataIndex: 'name',
+      key: 'name'
+    },
+    {
+      title: 'Code',
+      dataIndex: 'code',
+      key: 'code'
+    },
+    {
+      title: 'Teacher',
+      dataIndex: 'teacher',
+      key: 'teacher',
+      render: (teacherId) => {
+        const teacher = teachers.find((t) => t._id === teacherId);
+        return teacher ? teacher.name : '';
+      }
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, subject) => (
+        <div>
+          <Button onClick={() => handleEdit(subject)}>
+            <EditOutlined />
+          </Button>
+          <Button onClick={() => handleDelete(subject._id)}>
+            <DeleteOutlined />
+          </Button>
+        </div>
+      )
+    }
+  ];
+
   return (
     <div>
       <h2>Subject Management</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <div className="form-field">
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.target.value })
-            }
-            required
-          />
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="code">Code:</label>
-          <input
-            type="text"
-            id="code"
-            name="code"
-            value={formData.code}
-            onChange={(e) =>
-              setFormData({ ...formData, code: e.target.value })
-            }
-            required
-          />
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="teacherId">Teacher:</label>
-          <select
-            id="teacherId"
-            name="teacherId"
-            value={formData.teacherId}
-            onChange={(e) =>
-              setFormData({ ...formData, teacherId: e.target.value })
-            }
-            required
-          >
-            <option value="">Select Teacher</option>
-            {teachers.map((teacher) => (
-              <option key={teacher._id} value={teacher._id}>
-                {teacher.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-actions">
-          <button type="submit">
+      <Button style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "120px" }} onClick={() => setModalVisible(true)}>
+        Add Subject
+      </Button>
+      <Modal
+        title={formData.id ? 'Update Subject' : 'Add Subject'}
+        visible={modalVisible}
+        onCancel={() => {
+          setModalVisible(false);
+          clearFormData();
+        }}
+        footer={[
+          <Button key="cancel" style={{ backgroundColor: 'red', color: 'white', height: "45px", width: "100px" }} onClick={() => setModalVisible(false)}>
+            Cancel
+          </Button>,
+          <Button key="submit" style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "120px" }} onClick={handleSubmit}>
             {formData.id ? 'Update Subject' : 'Add Subject'}
-          </button>
-          <button type="button" onClick={clearFormData}>
-            Clear
-          </button>
-        </div>
-      </form>
+          </Button>
+        ]}
+      >
+        <Form layout="vertical">
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: 'Please enter subject name' }]}
+          >
+            <Input
+              placeholder="Please enter subject name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            label="Code"
+            name="code"
+            rules={[{ required: true, message: 'Please enter subject code' }]}
+          >
+            <Input
+              placeholder="Please enter subject code"
+              value={formData.code}
+              onChange={(e) =>
+                setFormData({ ...formData, code: e.target.value })
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            label="Teacher"
+            name="teacherId"
+            rules={[{ required: true, message: 'Please select a teacher' }]}
+          >
+            <Select
+              placeholder="Please select a teacher"
+              value={formData.teacherId}
+              onChange={(value) =>
+                setFormData({ ...formData, teacherId: value })
+              }
+            >
+              {teachers.map((teacher) => (
+                <Option key={teacher._id} value={teacher._id}>
+                  {teacher.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
 
       <h3>Subjects:</h3>
       {subjects.length === 0 ? (
         <p>No subjects available.</p>
       ) : (
-        <ul className="subject-list">
-          {subjects.map((subject) => (
-            <li key={subject._id} className="subject-item">
-              {subject.name} - {subject.code} - {subject.teacher.name}
-              <button onClick={() => handleEdit(subject)}>Edit</button>
-              <button onClick={() => handleDelete(subject._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        <Table dataSource={subjects} columns={columns} rowKey="_id" />
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Modal, Form, Input, Button } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import "./Teacher.css";
 
 function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
@@ -10,10 +11,7 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
     try {
       if (formData.id) {
         // Update teacher
-        await axios.put(
-          `http://localhost:8080/api/teachers/${formData.id}`,
-          formData
-        );
+        await axios.put(`http://localhost:8080/api/teachers/${formData.id}`, formData);
       } else {
         // Create teacher
         await axios.post('http://localhost:8080/api/teachers', formData);
@@ -23,8 +21,10 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
       setModalVisible(false);
     } catch (error) {
       console.error('Error submitting teacher:', error);
+      console.log('Error response:', error.response); // Log the error response
     }
   };
+  
 
   const handleEdit = (teacher) => {
     setFormData({
@@ -95,10 +95,10 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
             title="Actions"
             key="actions"
             render={(text, teacher) => (
-              <>
-                <Button onClick={() => handleEdit(teacher)}>Edit</Button>
-                <Button onClick={() => handleDelete(teacher._id)}>Delete</Button>
-              </>
+              <div>
+                <Button className="button-collections" onClick={() => handleEdit(teacher)}><EditOutlined /></Button>
+                <Button onClick={() => handleDelete(teacher._id)}><DeleteOutlined /></Button>
+              </div>
             )}
           />
         </Table>
