@@ -29,6 +29,8 @@ const SidebarDashboard = () => {
     name: '',
     email: ''
   });
+  const [attendancePercent, setAttendancePercent] = useState(0);
+
 
   useEffect(() => {
   }, []);
@@ -88,14 +90,14 @@ const SidebarDashboard = () => {
           <Content style={{ margin: '0 16px' }}>
             <div>
               <Routes>
-                <Route path="/home" element={<HomePage students={students} teachers={teachers} />} />
+                <Route path="/home" element={<HomePage students={students} teachers={teachers} attendancePercent={attendancePercent} />} />
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
                 <Route path="/class" element={<ClassList />} />
                 <Route path="/announcement" element={<Announcement />} />
                 <Route path="/add-student" element={<StudentForm />} />
                 <Route path="/admission" element={<AdmissionForm />} />
-                <Route path="/attendance" element={<AttendanceList />} />
+                <Route path="/attendance" element={<AttendanceList setAttendancePercent={setAttendancePercent} />} />
                 <Route path="/attendance-report" element={<AttendanceReport />} />
                 <Route path="/time-table" element={<Timetable />} />
                 <Route path="/teacher" element={<TeacherManagement 

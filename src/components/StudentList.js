@@ -53,29 +53,34 @@ const StudentList = ({ students }) => {
     {
       title: 'Date of Birth',
       dataIndex: 'dateOfBirth',
+      render: (text) => <span className="table-header-cell">{text}</span>,
     },
     {
       title: 'Gender',
       dataIndex: 'gender',
+      render: (text) => <span className="table-header-cell">{text}</span>,
     },
     {
       title: 'Address',
       dataIndex: 'address',
+      render: (text) => <span className="table-header-cell">{text}</span>,
     },
     {
       title: 'Email',
       dataIndex: ['contact', 'email'],
+      render: (text) => <span className="table-header-cell">{text}</span>,
     },
     {
       title: 'Contact Number',
       dataIndex: ['contact', 'contactNumber'],
+      render: (text) => <span className="table-header-cell">{text}</span>,
     },
   ];
 
   return (
     <div className="student-list">
       <div className="new-student">
-        <Link to="/add-student" className="add-student-link">Add Student</Link>
+        <Link to="/add-student" className="add-student-link">New Student</Link>
       </div>
       <div>
         <input
@@ -91,8 +96,8 @@ const StudentList = ({ students }) => {
           columns={columns}
           rowKey="id"
           pagination={false}
+          className="custom-table"
         />
-      </div>
       <Pagination
         current={currentPage}
         pageSize={pageSize}
@@ -100,6 +105,8 @@ const StudentList = ({ students }) => {
         onChange={handlePageChange}
         className="pagination"
       />
+            </div>
+
       <Modal
         title={selectedStudent ? selectedStudent.name : ''}
         visible={isModalVisible}

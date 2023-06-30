@@ -55,9 +55,11 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
   return (
     <div>
       <h2>Teacher Management</h2>
-      <Button type="primary" onClick={() => setModalVisible(true)}>
-        Add Teacher
-      </Button>
+      <div className="teacher-button">
+        <Button style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "120px" }} onClick={() => setModalVisible(true)}>
+          Add Teacher
+        </Button>
+      </div>
       <Modal
         title={formData.id ? 'Update Teacher' : 'Add Teacher'}
         visible={modalVisible}
@@ -66,10 +68,10 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
           clearFormData();
         }}
         footer={[
-          <Button key="cancel" onClick={() => setModalVisible(false)}>
+          <Button key="cancel" style={{ backgroundColor: 'red', color: 'white', height: "45px", width: "120px" }} onClick={() => setModalVisible(false)}>
             Cancel
           </Button>,
-          <Button key="submit" type="primary" onClick={handleSubmit}>
+          <Button key="submit" style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "120px" }} onClick={handleSubmit}>
             {formData.id ? 'Update Teacher' : 'Add Teacher'}
           </Button>
         ]}
@@ -84,7 +86,7 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
         </Form>
       </Modal>
 
-      <h3>Teachers:</h3>
+      <h3>Teachers: {teachers.length}</h3>
       {teachers.length === 0 ? (
         <p>No teachers available.</p>
       ) : (

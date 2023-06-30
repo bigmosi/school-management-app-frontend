@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Row, Progress } from 'antd';
 import './Home.css';
 
 
-const HomePage = ({students, teachers}) => {
+const HomePage = ({students, teachers, attendancePercent}) => {
   return (
     <div className="homepage">
   <Row gutter={16}>
@@ -23,6 +23,9 @@ const HomePage = ({students, teachers}) => {
       </Card>
     </Col>
   </Row>
+  <Card title="Attendance" bordered={false} className="attendance-container  progress-bar">
+        <Progress type="dashboard" percent={attendancePercent} format={() => `${attendancePercent.toFixed(2)}%`} />
+  </Card>
   </div>
   );
 };

@@ -12,3 +12,22 @@
   margin-top: 25px;
   color: #001529;
 }
+
+.ant-table-thead .ant-table-cell {
+  background-color: #001275 !important;
+  color: #fff !important;
+  font-family: lato;
+  font-size: 18px;
+}
+
+.table-container {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+
+
+
+
+
+

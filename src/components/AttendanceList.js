@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Modal, Form, Input, Select, Button } from 'antd';
+import { Table, Modal, Form, Input, Select, Button, Progress } from 'antd';
 import './AttendanceList.css';
 
 const { Option } = Select;
 
-const AttendanceList = () => {
+const AttendanceList = ({ setAttendancePercent }) => {
   const [attendanceList, setAttendanceList] = useState([]);
   const [studentNames, setStudentNames] = useState({});
   const [newAttendanceModalVisible, setNewAttendanceModalVisible] = useState(false);
@@ -15,6 +15,11 @@ const AttendanceList = () => {
   useEffect(() => {
     fetchAttendanceList();
   }, []);
+
+  useEffect(() => {
+    calculateAttendancePercentage();
+  }, [attendanceList]);
+
 
   const fetchAttendanceList = async () => {
     try {
@@ -67,6 +72,16 @@ const AttendanceList = () => {
       console.error('Error adding new attendance:', error);
     }
   };
+
+  const calculateAttendancePercentage = () => {
+    if (attendanceList.length === 0) {
+      setAttendancePercent(0);
+    } else {
+      const presentCount = attendanceList.filter(attendance => attendance.status === 'Present').length;
+      const attendancePercentage = (presentCount / attendanceList.length) * 100;
+      setAttendancePercent(attendancePercentage);
+    }
+  }
 
   const columns = [
     {

@@ -123,7 +123,7 @@ function ClassList() {
         <h2>{isAdding ? 'Add' : 'Edit'} Class</h2>
         <form onSubmit={handleSubmit}>
           <label>
-            Name:
+            Class:
             <input
               type="text"
               name="name"
