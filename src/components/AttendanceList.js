@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, Modal, Form, Input, Select, Button } from 'antd';
 import './AttendanceList.css';
+import AttendanceReport from './ReportAttendance';
 
 const { Option } = Select;
 
@@ -98,7 +99,7 @@ const AttendanceList = () => {
       </div>
         <Table columns={columns} dataSource={attendanceList} className="table-data" />
         <Modal
-          title={<span style={{ fontFamily: "lato", fontSize: "20px" }}>Add New Attendance</span>}
+          title={<span style={{ fontFamily: "lato", fontSize: "20px", textAlign: "center" }}>Add New Attendance</span>}
           visible={newAttendanceModalVisible}
           onCancel={handleCancelNewAttendance}
           footer={null}

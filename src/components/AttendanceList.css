@@ -1,15 +1,12 @@
 .table-data {
-  border: 2px solid red;
   width: 100%;
 }
 
 .attendance-container {
-  border: 2px solid red;
   width: 100%;
 }
 
 .button-conatiner {
-  border: 2px solid red;
   display: flex;
   justify-content: end;
   margin: 15px;
@@ -19,7 +16,6 @@
   display: flex;
   justify-content: start;
   margin-top: 16px;
-  border: 2px solid red;
 }
 
 .ant-pagination-item,
@@ -29,7 +25,7 @@
 }
 
 .ant-pagination-item-active a {
-  color: #000000FF;
+  color: #000000ff;
 }
 
 .ant-pagination-prev,
@@ -61,13 +57,9 @@
 }
 
 .total-record {
-  border: 2px solid red;
   margin: 15px;
   font-size: 20px;
   font-family: lato;
-}
-
-.attendance-form {
 }
 
 .text-input {
@@ -86,6 +78,3 @@
   margin-top: 10px;
 }
 
-.button-submit {
-  border: 2px solid red;
-}
