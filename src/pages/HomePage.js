@@ -6,7 +6,7 @@ import './Home.css';
 const HomePage = ({students, teachers}) => {
   return (
     <div className="homepage">
-<Row gutter={16}>
+  <Row gutter={16}>
     <Col span={8}>
       <Card title={<span className='card-container'>Students</span>} bordered={false} className="card-container">
         {students.length}

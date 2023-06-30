@@ -30,12 +30,6 @@
     color: gray;
 }
 
-.attendance-container {
-    display: flex;
-    justify-content: center;
-    width: 350px;
-}
-
 .academic-performance-list {
     list-style-type: none;
     padding: 0;

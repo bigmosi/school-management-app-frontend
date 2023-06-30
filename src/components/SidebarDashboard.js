@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { PieChartOutlined, UserOutlined, CodeOutlined, FileTextOutlined, SolutionOutlined, CheckCircleOutlined, DashboardOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
@@ -85,9 +86,6 @@ const SidebarDashboard = () => {
         <Layout>
           <Header style={{ padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>All Students</Breadcrumb.Item>
-            </Breadcrumb>
             <div>
               <Routes>
                 <Route path="/home" element={<HomePage students={students} teachers={teachers} />} />
