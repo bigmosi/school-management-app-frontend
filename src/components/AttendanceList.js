@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Table, Modal, Form, Input, Select, Button, Progress } from 'antd';
 import './AttendanceList.css';
 
-const AttendanceList = () => {
+const { Option } = Select;
+
+const AttendanceList = ({ setAttendancePercent }) => {
   const [attendanceList, setAttendanceList] = useState([]);
   const [studentNames, setStudentNames] = useState({});
-  const [newAttendance, setNewAttendance] = useState({
-    student: '',
-    date: '',
-    status: ''
-  });
+  const [newAttendanceModalVisible, setNewAttendanceModalVisible] = useState(false);
+  const [form] = Form.useForm();
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchAttendanceList();
   }, []);
+
+  useEffect(() => {
+    calculateAttendancePercentage();
+  }, [attendanceList]);
+
 
   const fetchAttendanceList = async () => {
     try {
@@ -31,7 +36,7 @@ const AttendanceList = () => {
     const uniqueStudentIds = [...new Set(studentIds)];
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/students?ids=${uniqueStudentIds.join(',')}`); // Replace '/api/students/names' with your actual student API endpoint
+      const response = await axios.get(`http://localhost:8080/api/students?ids=${uniqueStudentIds.join(',')}`);
       const namesMap = {};
       response.data.forEach(student => {
         namesMap[student.id] = student.name;
@@ -42,18 +47,23 @@ const AttendanceList = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    setNewAttendance({ ...newAttendance, [e.target.name]: e.target.value });
+  const handleAddAttendance = () => {
+    setNewAttendanceModalVisible(true);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleCancelNewAttendance = () => {
+    setNewAttendanceModalVisible(false);
+    form.resetFields();
+  };
 
+  const handleNewAttendanceSubmit = async (values) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/attendance', newAttendance); // Replace '/api/attendance' with your actual API endpoint for adding new attendance
+      const response = await axios.post('http://localhost:8080/api/attendance', values);
       setAttendanceList([...attendanceList, response.data]);
-      setNewAttendance({ student: '', date: '', status: '' });
       setSuccessMessage('Attendance submitted successfully');
+
+      form.resetFields();
+      setNewAttendanceModalVisible(false);
 
       setTimeout(() => {
         setSuccessMessage('');
@@ -63,67 +73,92 @@ const AttendanceList = () => {
     }
   };
 
-  return (
-    <div className="attendance-conatiner">
-      <div>
-      <h2>Attendance</h2>
-      <table className="attendance-table">
-        <thead>
-          <tr>
-            <th>Student</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {attendanceList.map(attendance => (
-            <tr key={attendance.id}>
-              <td>{studentNames[attendance.student]}</td>
-              <td>{attendance.date}</td>
-              <td>{attendance.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
+  const calculateAttendancePercentage = () => {
+    if (attendanceList.length === 0) {
+      setAttendancePercent(0);
+    } else {
+      const presentCount = attendanceList.filter(attendance => attendance.status === 'Present').length;
+      const attendancePercentage = (presentCount / attendanceList.length) * 100;
+      setAttendancePercent(attendancePercentage);
+    }
+  }
 
+  const columns = [
+    {
+      title: 'Student',
+      dataIndex: 'student',
+      key: 'student',
+      render: (student) => studentNames[student],
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+    },
+  ];
+
+  return (
+    <div className="attendance-container">
       <div>
-      <h2>Add New Attendance</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Student:
-          <select name="student" value={newAttendance.student} onChange={handleInputChange} required>
-            <option value="">Select a student</option>
-            {/* Render options dynamically based on available student names */}
-            {Object.entries(studentNames).map(([id, name]) => (
-              <option key={id} value={id}>{name}</option>
-            ))}
-          </select>
-        </label>
-        <br />
-        <label>
-          Date:
-          <input 
-            type="date" 
-            name="date" 
-            value={newAttendance.date} 
-            onChange={handleInputChange} className="attendance-date" required />
-        </label>
-        <br />
-        <label>
-          Status:
-          <select name="status" value={newAttendance.status} onChange={handleInputChange} required>
-            <option value="">Select a status</option>
-            <option value="Present">Present</option>
-            <option value="Absent">Absent</option>
-          </select>
-        </label>
-        <br />
-        { successMessage && <div className="success-message">{successMessage}</div> }
-        <div className="attendance-button">
-         <button type="submit">Add Attendance</button>
+        <div className="total-record">
+          Attendance: {attendanceList.length}
         </div>
-      </form>
+      <div className="button-conatiner">
+        <Button style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "150px" }} onClick={handleAddAttendance}>Add Attendance</Button>
+      </div>
+        <Table columns={columns} dataSource={attendanceList} className="table-data" />
+        <Modal
+          title={<span style={{ fontFamily: "lato", fontSize: "20px", textAlign: "center" }}>Add New Attendance</span>}
+          visible={newAttendanceModalVisible}
+          onCancel={handleCancelNewAttendance}
+          footer={null}
+        >
+          <Form form={form} onFinish={handleNewAttendanceSubmit} className="attendance-form">
+  <Form.Item
+    name="student"
+    label="Student"
+    className="text-input"
+    rules={[{ required: true, message: 'Please select a student' }]}
+  >
+    <Select placeholder="Select a student" className="select-input">
+      {Object.entries(studentNames).map(([id, name]) => (
+        <Option key={id} value={id}>{name}</Option>
+      ))}
+    </Select>
+  </Form.Item>
+
+  <Form.Item
+    name="date"
+    label="Date"
+    rules={[{ required: true, message: 'Please enter a date' }]}
+  >
+    <Input type="date" className="text-input" />
+  </Form.Item>
+
+  <Form.Item
+    name="status"
+    label="Status"
+    rules={[{ required: true, message: 'Please select a status' }]}
+  >
+    <Select placeholder="Select a status" className="select-input">
+      <Option value="Present">Present</Option>
+      <Option value="Absent">Absent</Option>
+    </Select>
+  </Form.Item>
+
+  {successMessage && <div className="success-message">{successMessage}</div>}
+
+  <div className="attendance-button">
+    <Button style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "100px" }} htmlType="submit">Submit</Button>
+  </div>
+</Form>
+
+        </Modal>
       </div>
     </div>
   );

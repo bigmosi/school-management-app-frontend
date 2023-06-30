@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Table, Modal, Form, Input, Button } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import "./Teacher.css";
 
 function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
       if (formData.id) {
         // Update teacher
-        await axios.put(
-          `http://localhost:8080/api/teachers/${formData.id}`,
-          formData
-        );
+        await axios.put(`http://localhost:8080/api/teachers/${formData.id}`, formData);
       } else {
         // Create teacher
         await axios.post('http://localhost:8080/api/teachers', formData);
       }
       fetchTeachers();
       clearFormData();
+      setModalVisible(false);
     } catch (error) {
       console.error('Error submitting teacher:', error);
+      console.log('Error response:', error.response); // Log the error response
     }
   };
+  
 
   const handleEdit = (teacher) => {
     setFormData({
@@ -30,6 +32,7 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
       name: teacher.name,
       email: teacher.email
     });
+    setModalVisible(true);
   };
 
   const handleDelete = async (teacherId) => {
@@ -52,62 +55,55 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
   return (
     <div>
       <h2>Teacher Management</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={(e) =>
-            setFormData({ ...formData, name: e.target.value })
-          }
-          required
-          placeholder="Please enter teacher name"
-        />
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={(e) =>
-            setFormData({ ...formData, email: e.target.value })
-          }
-          required
-          placeholder="Please enter email address"
-        />
-        <button type="submit" className="submit-button">
-          {formData.id ? 'Update Teacher' : 'Add Teacher'}
-        </button>
-        <button type="button" className="clear-button" onClick={clearFormData}>
-          Clear
-        </button>
-      </form>
+      <div className="teacher-button">
+        <Button style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "120px" }} onClick={() => setModalVisible(true)}>
+          Add Teacher
+        </Button>
+      </div>
+      <Modal
+        title={formData.id ? 'Update Teacher' : 'Add Teacher'}
+        visible={modalVisible}
+        onCancel={() => {
+          setModalVisible(false);
+          clearFormData();
+        }}
+        footer={[
+          <Button key="cancel" style={{ backgroundColor: 'red', color: 'white', height: "45px", width: "120px" }} onClick={() => setModalVisible(false)}>
+            Cancel
+          </Button>,
+          <Button key="submit" style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "120px" }} onClick={handleSubmit}>
+            {formData.id ? 'Update Teacher' : 'Add Teacher'}
+          </Button>
+        ]}
+      >
+        <Form onFinish={handleSubmit}>
+          <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter teacher name' }]}>
+            <Input placeholder="Please enter teacher name" />
+          </Form.Item>
+          <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Please enter email address' }]}>
+            <Input placeholder="Please enter email address" />
+          </Form.Item>
+        </Form>
+      </Modal>
 
-      <h3>Teachers:</h3>
+      <h3>Teachers: {teachers.length}</h3>
       {teachers.length === 0 ? (
         <p>No teachers available.</p>
       ) : (
-        <ul className="teacher-list">
-          {teachers.map((teacher) => (
-            <li key={teacher._id} className="teacher-item">
-              {teacher.name} | {teacher.email}
-              <button
-                className="edit-button"
-                onClick={() => handleEdit(teacher)}
-              >
-                Edit
-              </button>
-              <button
-                className="delete-button"
-                onClick={() => handleDelete(teacher._id)}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        <Table dataSource={teachers} rowKey="_id">
+          <Table.Column title="Name" dataIndex="name" key="name" />
+          <Table.Column title="Email" dataIndex="email" key="email" />
+          <Table.Column
+            title="Actions"
+            key="actions"
+            render={(text, teacher) => (
+              <div>
+                <Button className="button-collections" onClick={() => handleEdit(teacher)}><EditOutlined /></Button>
+                <Button onClick={() => handleDelete(teacher._id)}><DeleteOutlined /></Button>
+              </div>
+            )}
+          />
+        </Table>
       )}
     </div>
   );

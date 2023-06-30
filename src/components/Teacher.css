@@ -32,4 +32,12 @@
     cursor: pointer;
     margin-left: 1rem;
   }
-  
+
+.button-collections {
+  margin-right: 15px;
+}
+
+.teacher-button {
+  display: flex;
+  justify-content: end;
+}

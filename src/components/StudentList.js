@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Input, Modal, Pagination } from 'antd';
+import { Input, Modal, Pagination, Table } from 'antd';
 import './StudentList.css';
 
 const { Search } = Input;
@@ -10,7 +10,7 @@ const StudentList = ({ students }) => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 7; // Number of students to display per page
+  const pageSize = 12; // Number of students to display per page
 
   const handleSearch = (value) => {
     setSearchTerm(value);
@@ -40,54 +40,64 @@ const StudentList = ({ students }) => {
   const endIndex = startIndex + pageSize;
   const displayedStudents = filteredStudents.slice(startIndex, endIndex);
 
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      render: (text, record) => (
+        <span onClick={() => handleStudentClick(record)} className="modal">
+          {text}
+        </span>
+      ),
+    },
+    {
+      title: 'Date of Birth',
+      dataIndex: 'dateOfBirth',
+      render: (text) => <span className="table-header-cell">{text}</span>,
+    },
+    {
+      title: 'Gender',
+      dataIndex: 'gender',
+      render: (text) => <span className="table-header-cell">{text}</span>,
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      render: (text) => <span className="table-header-cell">{text}</span>,
+    },
+    {
+      title: 'Email',
+      dataIndex: ['contact', 'email'],
+      render: (text) => <span className="table-header-cell">{text}</span>,
+    },
+    {
+      title: 'Contact Number',
+      dataIndex: ['contact', 'contactNumber'],
+      render: (text) => <span className="table-header-cell">{text}</span>,
+    },
+  ];
+
   return (
     <div className="student-list">
+      <div className="new-student">
+        <Link to="/add-student" className="add-student-link">New Student</Link>
+      </div>
       <div>
-        <Search
+        <input
           placeholder="Search by name"
           value={searchTerm}
           onChange={(e) => handleSearch(e.target.value)}
-          className="search-item"
-        />
+          className="search-item" />
       </div>
-      <h2>Students</h2>
-      <div className="new-student">
-        <Link to="/add-student" className="add-student-link">+ Add Student</Link>
-        {/* <Link to="/attendance" className="add-student-link">Attendance</Link> */}
-      </div>
+      <h2>Students: {students.length}</h2>
       <div className="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Date of Birth</th>
-              <th>Gender</th>
-              <th>Address</th>
-              <th>Email</th>
-              <th>Contact Number</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayedStudents.map((student) => (
-              <tr key={student.id} className="list-container">
-                <td>
-                  <span 
-                    onClick={() => handleStudentClick(student)} 
-                    className="modal"
-                  >
-                    {student.name}
-                  </span>
-                </td>
-                <td>{student.dateOfBirth}</td>
-                <td>{student.gender}</td>
-                <td>{student.address}</td>
-                <td>{student.contact.email}</td>
-                <td>{student.contact.contactNumber}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        <Table
+          dataSource={displayedStudents}
+          columns={columns}
+          rowKey="id"
+          pagination={false}
+          className="custom-table"
+        />
       <Pagination
         current={currentPage}
         pageSize={pageSize}
@@ -95,6 +105,8 @@ const StudentList = ({ students }) => {
         onChange={handlePageChange}
         className="pagination"
       />
+            </div>
+
       <Modal
         title={selectedStudent ? selectedStudent.name : ''}
         visible={isModalVisible}
