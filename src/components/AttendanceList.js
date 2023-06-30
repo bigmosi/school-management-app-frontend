@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, Modal, Form, Input, Select, Button } from 'antd';
 import './AttendanceList.css';
-import AttendanceReport from './ReportAttendance';
 
 const { Option } = Select;
 

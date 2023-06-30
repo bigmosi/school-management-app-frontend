@@ -6,7 +6,7 @@ function TimetableManagement() {
   const [schedules, setSchedules] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [teachers, setTeachers] = useState([]);
-  const [classes, setClasses] = useState([]); // Added classes state
+  const [classes, setClasses] = useState([]);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [formData, setFormData] = useState({
     day: '',
@@ -21,7 +21,7 @@ function TimetableManagement() {
     fetchSchedules();
     fetchSubjects();
     fetchTeachers();
-    fetchClasses(); // Fetch classes
+    fetchClasses();
   }, []);
 
   const fetchSchedules = async () => {
@@ -68,7 +68,7 @@ function TimetableManagement() {
       endTime: schedule.endTime,
       subjectId: schedule.subject._id,
       teacherId: schedule.teacher._id,
-      classId: schedule.class ? schedule.class.classId: '' 
+      classId: schedule.classId || ''
     });
   };
 
@@ -123,14 +123,14 @@ function TimetableManagement() {
          value={formData.day}
          onChange={(e) => setFormData({ ...formData, day: e.target.value })}
          required
-         >
-            <option value="">Select Day</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-        </select>
+       >
+         <option value="">Select Day</option>
+         <option value="Monday">Monday</option>
+         <option value="Tuesday">Tuesday</option>
+         <option value="Wednesday">Wednesday</option>
+         <option value="Thursday">Thursday</option>
+         <option value="Friday">Friday</option>
+       </select>
 
         <div>
           <label htmlFor="startTime">Start Time:</label>
@@ -219,15 +219,16 @@ function TimetableManagement() {
         ) : (
           <ul>
             {schedules.map((schedule) => (
-              <li
-                key={schedule._id}
-                onClick={() => handleScheduleClick(schedule)}
-                className={selectedSchedule?._id === schedule._id ? 'active' : ''}
-              >
-                {schedule.day} | {schedule.startTime} - {schedule.endTime} |{' '}
-                {schedule.subject.name} | {schedule.teacher.name}
-                <button onClick={() => handleDelete(schedule)}>Delete</button>
-              </li>
+              schedule.teacher && schedule.subject ? (
+                <li
+                  key={schedule._id}
+                  onClick={() => handleScheduleClick(schedule)}
+                  className={selectedSchedule?._id === schedule._id ? 'active' : ''}
+                >
+                  {schedule.day} | {schedule.startTime} - {schedule.endTime} | {schedule.subject.name} | {schedule.teacher.name}
+                  <button onClick={() => handleDelete(schedule)}>Delete</button>
+                </li>
+              ) : null
             ))}
           </ul>
         )}
