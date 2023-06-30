@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Modal, Form, Input, Select, Button } from 'antd';
 import "./Subject.css";
+
+const { Option } = Select;
 
 function SubjectManagement() {
   const [subjects, setSubjects] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [formData, setFormData] = useState({
-    id: '', // Add a default value for the subject id
+    id: '',
     name: '',
     code: '',
     teacherId: ''
   });
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     fetchSubjects();
@@ -20,7 +25,6 @@ function SubjectManagement() {
   const fetchSubjects = async () => {
     try {
       const response = await axios.get('http://localhost:8080/api/subjects');
-      console.log(response.data);
       setSubjects(response.data);
     } catch (error) {
       console.error('Error fetching subjects:', error);
@@ -36,22 +40,16 @@ function SubjectManagement() {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
-      console.log('Form Data:', formData); 
       if (formData.id) {
-        // Update subject
-        await axios.put(
-          `http://localhost:8080/api/subjects/${formData.id}`,
-          formData
-        );
+        await axios.put(`http://localhost:8080/api/subjects/${formData.id}`, formData);
       } else {
-        // Create subject
         await axios.post('http://localhost:8080/api/subjects', formData);
       }
       fetchSubjects();
       clearFormData();
+      closeModal();
     } catch (error) {
       console.error('Error submitting subject:', error);
     }
@@ -64,6 +62,7 @@ function SubjectManagement() {
       code: subject.code,
       teacherId: subject.teacher._id
     });
+    openModal();
   };
 
   const handleDelete = async (subjectId) => {
@@ -78,94 +77,89 @@ function SubjectManagement() {
 
   const clearFormData = () => {
     setFormData({
-      id: '', // Reset the subject id to an empty string
+      id: '',
       name: '',
       code: '',
       teacherId: ''
     });
   };
 
+  const openModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div>
       <h2>Subject Management</h2>
-      <form onSubmit={handleSubmit} className="form">
-      <div className="form-field">
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.target.value })
-            }
-            required
-          />
-        </div>
+      <Button type="primary" onClick={openModal}>
+        Add Subject
+      </Button>
 
-        <div className="form-field">
-          <label htmlFor="code">Code:</label>
-          <input
-            type="text"
-            id="code"
-            name="code"
-            value={formData.code}
-            onChange={(e) =>
-              setFormData({ ...formData, code: e.target.value })
-            }
-            required
-          />
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="teacherId">Teacher:</label>
-          <select
-            id="teacherId"
-            name="teacherId"
-            value={formData.teacherId}
-            onChange={(e) =>
-              setFormData({ ...formData, teacherId: e.target.value })
-            }
-            required
-          >
-            <option value="">Select Teacher</option>
-            {teachers.map((teacher) => (
-              <option key={teacher._id} value={teacher._id}>
-                {teacher.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-actions">
-          <button type="submit">
-            {formData.id ? 'Update Subject' : 'Add Subject'}
-          </button>
-          <button type="button" onClick={clearFormData}>
-            Clear
-          </button>
-        </div>
-      </form>
       <h3>Subjects:</h3>
-{subjects.length === 0 ? (
-  <p>No subjects available.</p>
-) : (
-  <ul className="subject-list">
-    {subjects.map((subject) => {
-      const teacher = teachers.find((t) => t._id === subject.teacher);
-      return (
-        <li key={subject._id} className="subject-item">
-          {subject.name} - {subject.code} - {teacher ? teacher.name : ''}
-          <button onClick={() => handleEdit(subject)}>Edit</button>
-          <button onClick={() => handleDelete(subject._id)}>Delete</button>
-        </li>
-      );
-    })}
-  </ul>
-)}
-   </div>
+      {subjects.length === 0 ? (
+        <p>No subjects available.</p>
+      ) : (
+        <ul className="subject-list">
+          {subjects.map((subject) => {
+            const teacher = teachers.find((t) => t._id === subject.teacher);
+            return (
+              <li key={subject._id} className="subject-item">
+                {subject.name} - {subject.code} - {teacher ? teacher.name : ''}
+                <button onClick={() => handleEdit(subject)}>Edit</button>
+                <button onClick={() => handleDelete(subject._id)}>Delete</button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+
+      <Modal
+        title={formData.id ? 'Update Subject' : 'Add Subject'}
+        visible={isModalVisible}
+        onOk={handleSubmit}
+        onCancel={closeModal}
+      >
+        <Form>
+          <Form.Item label="Name">
+            <Input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+            />
+          </Form.Item>
+
+          <Form.Item label="Code">
+            <Input
+              type="text"
+              value={formData.code}
+              onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+              required
+            />
+          </Form.Item>
+
+          <Form.Item label="Teacher">
+            <Select
+              value={formData.teacherId}
+              onChange={(value) => setFormData({ ...formData, teacherId: value })}
+              required
+            >
+              <Option value="">Select Teacher</Option>
+              {teachers.map((teacher) => (
+                <Option key={teacher._id} value={teacher._id}>
+                  {teacher.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
   );
 }
 
 export default SubjectManagement;
-
