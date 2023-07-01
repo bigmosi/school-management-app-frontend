@@ -8,9 +8,11 @@ const LessonPlan = () => {
   const [teacher, setTeacher] = useState("");
   const [teachers, setTeachers] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
+  const [lessonPlans, setLessonPlans] = useState([]);
 
   useEffect(() => {
     fetchTeachers();
+    fetchLessonPlans();
   }, []);
 
   const fetchTeachers = async () => {
@@ -19,6 +21,15 @@ const LessonPlan = () => {
       setTeachers(response.data);
     } catch (error) {
       console.error("Error fetching teachers", error);
+    }
+  };
+
+  const fetchLessonPlans = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/lesson-plans");
+      setLessonPlans(response.data);
+    } catch (error) {
+      console.error("Error fetching lesson plans", error);
     }
   };
 
@@ -37,14 +48,15 @@ const LessonPlan = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/lesson-plans/",
+        "http://localhost:8080/api/lesson-plans",
         formData
       );
       console.log("Lesson plan created:", response.data);
-      setSuccessMessage('Form submitted successfully.');
-       setTimeout(() => {
-         setSuccessMessage("");
-       }, 5000);
+      setSuccessMessage("Form submitted successfully.");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+      fetchLessonPlans();
     } catch (error) {
       console.error("Error creating lesson plan", error);
     }
@@ -94,6 +106,25 @@ const LessonPlan = () => {
         {successMessage && <div className="success-message">{successMessage}</div>}
         <button type="submit">Create</button>
       </form>
+
+      <div>
+  <h2>Lesson Plans</h2>
+  {lessonPlans.map((lessonPlan) => (
+    <div key={lessonPlan._id}>
+      <h3>{lessonPlan.title}</h3>
+      <p>{lessonPlan.description}</p>
+      <p>Teacher: {lessonPlan.teacher.name}</p>
+      <a
+        href={`http://localhost:8080/uploads/${lessonPlan.file}`}
+        target="_blank"
+        rel="noreferrer"
+      >
+        View File
+      </a>
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };
