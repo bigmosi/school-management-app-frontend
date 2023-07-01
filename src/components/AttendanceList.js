@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, Modal, Form, Input, Select, Button, Progress } from 'antd';
 import './AttendanceList.css';
+import Spinner from './Spinner';
 
 const { Option } = Select;
 
@@ -101,6 +102,10 @@ const AttendanceList = ({ setAttendancePercent }) => {
       key: 'status',
     },
   ];
+
+  if (attendanceList.length === 0) {
+    return <Spinner />
+  }
 
   return (
     <div className="attendance-container">
