@@ -19,6 +19,7 @@ import TeacherManagement from './Teacher';
 import SubjectManagement from './Subject';
 import Announcement from './Announcement';
 import LessonPlan from './LessonPlan';
+import ExamScheduleForm from './Exam';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -72,6 +73,8 @@ const SidebarDashboard = () => {
     { key: 'teacher', icon: <FileTextOutlined />, label: 'Teacher', path: '/teacher' },
     { key: 'subject', icon: <FileTextOutlined />, label: 'Subject', path: '/subject' },
     { key: 'lesson', icon: <FileTextOutlined />, label: 'Lesson Plan', path: '/lesson' },
+    { key: 'exam', icon: <FileTextOutlined />, label: 'Examination', path: '/exam' },
+
   ];
 
   return (
@@ -106,6 +109,8 @@ const SidebarDashboard = () => {
                 teachers={teachers} formData={formData} setFormData={setFormData} fetchTeachers={fetchTeachers} />} />
                 <Route path="/subject" element={<SubjectManagement />} />
                 <Route path="/lesson" element={<LessonPlan />} />
+                <Route path="/exam" element={<ExamScheduleForm />} />
+
               </Routes>
             </div>
           </Content>
