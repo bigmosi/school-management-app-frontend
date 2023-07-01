@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./ClassList.css";
+import Spinner from './Spinner';
 
 function ClassList() {
   const [classes, setClasses] = useState([]);
@@ -91,8 +92,8 @@ function ClassList() {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
+  if (classes.length === 0) {
+    return <Spinner />
   }
 
   return (

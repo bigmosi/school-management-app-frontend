@@ -3,6 +3,7 @@ import axios from "axios";
 import { Modal, Button, notification, Badge, Pagination } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 import "./Announcement.css";
+import Spinner from "./Spinner";
 
 
 const AnnouncementForm = ({ visible, onSubmit, onCancel }) => {
@@ -155,7 +156,7 @@ const Announcement = () => {
       <div className="announcement-list">
         <h2>All Announcements</h2>
         {announcements.length === 0 ? (
-          <p>No announcements available</p>
+          <Spinner />
         ) : (
           <ul className="container">
             {announcements.map((announcement) => (
@@ -174,7 +175,7 @@ const Announcement = () => {
         )}
       </div>
       <div className="loading-more">
-        {hasMore && <p>Loading more announcements...</p>}
+        {hasMore && <Spinner />}
       </div>
     </div>
   );

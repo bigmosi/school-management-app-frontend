@@ -3,6 +3,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import "./ReportAttendance.css";
+import Spinner from "./Spinner";
 
 function AttendanceReport() {
   const [report, setReport] = useState("");
@@ -60,8 +61,8 @@ function AttendanceReport() {
       <h2 className="page-title">Attendance Report</h2>
       <div className="form-group">
         <label htmlFor="student">Student:</label>
-        {loading ? (
-          <p>Loading students...</p>
+        {students.length === 0 ? (
+          <Spinner />
         ) : (
           <select id="student" value={selectedStudent} onChange={handleStudentChange} className="select-box">
             {students.length > 0 ? (

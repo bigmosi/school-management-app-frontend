@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Input, Modal, Pagination, Table } from 'antd';
 import './StudentList.css';
+import Spinner from './Spinner';
 
 const { Search } = Input;
 
@@ -76,6 +77,10 @@ const StudentList = ({ students }) => {
       render: (text) => <span className="table-header-cell">{text}</span>,
     },
   ];
+
+  if (students.length === 0) {
+    return <Spinner />;
+  }
 
   return (
     <div className="student-list">

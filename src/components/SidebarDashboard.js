@@ -18,6 +18,7 @@ import Timetable from './Timetable';
 import TeacherManagement from './Teacher';
 import SubjectManagement from './Subject';
 import Announcement from './Announcement';
+import LessonPlan from './LessonPlan';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -70,6 +71,7 @@ const SidebarDashboard = () => {
     { key: 'time-table', icon: <FileTextOutlined />, label: 'Time Table', path: '/time-table' },
     { key: 'teacher', icon: <FileTextOutlined />, label: 'Teacher', path: '/teacher' },
     { key: 'subject', icon: <FileTextOutlined />, label: 'Subject', path: '/subject' },
+    { key: 'lesson', icon: <FileTextOutlined />, label: 'Lesson Plan', path: '/lesson' },
   ];
 
   return (
@@ -103,6 +105,7 @@ const SidebarDashboard = () => {
                 <Route path="/teacher" element={<TeacherManagement 
                 teachers={teachers} formData={formData} setFormData={setFormData} fetchTeachers={fetchTeachers} />} />
                 <Route path="/subject" element={<SubjectManagement />} />
+                <Route path="/lesson" element={<LessonPlan />} />
               </Routes>
             </div>
           </Content>
