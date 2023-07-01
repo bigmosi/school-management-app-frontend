@@ -7,7 +7,7 @@ const LessonPlan = () => {
   const [file, setFile] = useState(null);
   const [teacher, setTeacher] = useState("");
   const [teachers, setTeachers] = useState([]);
-  const [success, setSuccess] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     fetchTeachers();
@@ -41,7 +41,10 @@ const LessonPlan = () => {
         formData
       );
       console.log("Lesson plan created:", response.data);
-      setSuccess("Lesson plan submitted successfully.");
+      setSuccessMessage('Form submitted successfully.');
+       setTimeout(() => {
+         setSuccessMessage("");
+       }, 5000);
     } catch (error) {
       console.error("Error creating lesson plan", error);
     }
@@ -88,9 +91,9 @@ const LessonPlan = () => {
             ))}
           </select>
         </div>
+        {successMessage && <div className="success-message">{successMessage}</div>}
         <button type="submit">Create</button>
       </form>
-      {success && <p>{success}</p>}
     </div>
   );
 };

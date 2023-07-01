@@ -266,11 +266,11 @@ const StudentForm = () => {
         </div>
       ))}
       
-        {successMessage && <div className="success-message">{successMessage}</div>}
 
         <div className="button-container">
           <button type="button" onClick={addEmergencyContact} className="emergency-contact">
-            Add Emergency Contact
+            Add E        {successMessage && <div className="success-message">{successMessage}</div>}
+mergency Contact
           </button>
           <button type="submit" className="add-student">Add Student</button>
         </div>
