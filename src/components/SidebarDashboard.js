@@ -19,7 +19,9 @@ import TeacherManagement from './Teacher';
 import SubjectManagement from './Subject';
 import Announcement from './Announcement';
 import LessonPlan from './LessonPlan';
-import ExamScheduleForm from './Exam';
+import ExamScheduleForm from './ExamSchedule';
+import ExamForm from './Exam';
+import QuestionForm from './QuestionForm';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -73,7 +75,9 @@ const SidebarDashboard = () => {
     { key: 'teacher', icon: <FileTextOutlined />, label: 'Teacher', path: '/teacher' },
     { key: 'subject', icon: <FileTextOutlined />, label: 'Subject', path: '/subject' },
     { key: 'lesson', icon: <FileTextOutlined />, label: 'Lesson Plan', path: '/lesson' },
-    { key: 'exam', icon: <FileTextOutlined />, label: 'Examination', path: '/exam' },
+    { key: 'exam', icon: <FileTextOutlined />, label: 'Examination Schecule', path: '/exam' },
+    { key: 'examination', icon: <FileTextOutlined />, label: 'Examination', path: '/examination' },
+    { key: 'question', icon: <FileTextOutlined />, label: 'Setting Question', path: '/question' },
 
   ];
 
@@ -110,7 +114,8 @@ const SidebarDashboard = () => {
                 <Route path="/subject" element={<SubjectManagement />} />
                 <Route path="/lesson" element={<LessonPlan />} />
                 <Route path="/exam" element={<ExamScheduleForm />} />
-
+                <Route path="/examination" element={<ExamForm />} />
+                <Route path="/question" element={<QuestionForm />} />
               </Routes>
             </div>
           </Content>

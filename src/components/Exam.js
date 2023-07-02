@@ -1,141 +1,87 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Table } from "antd";
-import { Modal, Form, Input, DatePicker, TimePicker } from "antd";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const ExamScheduleForm = () => {
-  const [form] = Form.useForm();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [examSchedules, setExamSchedules] = useState([]);
+const ExamForm = () => {
+  const [examName, setExamName] = useState('');
+  const [questionIds, setQuestionIds] = useState([]);
+  const [questions, setQuestions] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    fetchExamSchedules();
+    fetchQuestions();
   }, []);
 
-  const fetchExamSchedules = async () => {
+  const fetchQuestions = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/exam-schedules");
+      const response = await axios.get('http://localhost:8080/api/questions');
       const { data } = response;
-      setExamSchedules(data);
-      console.log(data);
+      setQuestions(data);
     } catch (error) {
-      console.error("Error fetching exam schedules", error);
+      console.error('Error fetching questions', error);
     }
   };
 
-  const handleModalOk = () => {
-    form.submit();
+  const handleQuestionSelect = (e) => {
+    const selectedIds = Array.from(e.target.selectedOptions, (option) => option.value);
+    setQuestionIds(selectedIds);
   };
 
-  const handleModalCancel = () => {
-    setModalVisible(false);
-    form.resetFields();
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (values) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/exam-schedules", values);
+      const response = await axios.post('http://localhost:8080/api/exams', {
+        examName,
+        questionIds,
+      });
 
-      setSuccessMessage("Exam schedule created successfully");
+      setSuccessMessage('Exam created successfully');
       setTimeout(() => {
-        setSuccessMessage("");
+        setSuccessMessage('');
       }, 5000);
-      resetForm();
-      fetchExamSchedules(); // Update the exam schedule list after creating a new schedule
+
+      setExamName('');
+      setQuestionIds([]);
     } catch (error) {
-      console.error("Error creating exam schedule:", error);
+      console.error('Error creating exam', error);
     }
-
-    setModalVisible(false);
-    form.resetFields();
-  };
-
-  const resetForm = () => {
-    form.resetFields();
   };
 
   return (
     <div>
-      <button onClick={() => setModalVisible(true)}>Create Exam Schedule</button>
-      <Modal
-        visible={modalVisible}
-        title="Create Exam Schedule"
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-        okText="Create"
-        cancelText="Cancel"
-      >
-        <Form form={form} onFinish={handleSubmit}>
-          <Form.Item
-            name="examName"
-            label="Exam Name"
-            rules={[{ required: true, message: "Please enter the exam name" }]}
+      <h2>Create Exam</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="examName">Exam Name:</label>
+          <input
+            type="text"
+            id="examName"
+            value={examName}
+            onChange={(e) => setExamName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="questionIds">Select Questions:</label>
+          <select
+            multiple
+            id="questionIds"
+            value={questionIds}
+            onChange={handleQuestionSelect}
+            required
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="examDate"
-            label="Exam Date"
-            rules={[{ required: true, message: "Please select the exam date" }]}
-          >
-            <DatePicker />
-          </Form.Item>
-          <Form.Item
-            name="examTime"
-            label="Exam Time"
-            rules={[{ required: true, message: "Please select the exam time" }]}
-          >
-            <TimePicker format="HH:mm" />
-          </Form.Item>
-          <Form.Item
-            name="examDuration"
-            label="Exam Duration"
-            rules={[{ required: true, message: "Please enter the exam duration" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item name="additionalInfo" label="Additional Information">
-            <Input.TextArea />
-          </Form.Item>
-        </Form>
-      </Modal>
-      {successMessage && <div className="success-message">{successMessage}</div>}
-      <ExamScheduleList examSchedules={examSchedules} />
+            {questions.map((question) => (
+              <option key={question._id} value={question._id}>
+                {question.questionText}
+              </option>
+            ))}
+          </select>
+        </div>
+        {successMessage && <div className="success-message">{successMessage}</div>}
+        <button type="submit">Create Exam</button>
+      </form>
     </div>
   );
 };
 
-const ExamScheduleList = ({ examSchedules }) => {
-  const columns = [
-    {
-      title: "Exam Name",
-      dataIndex: "examName",
-      key: "examName",
-    },
-    {
-      title: "Exam Date",
-      dataIndex: "examDate",
-      key: "examDate",
-    },
-    {
-      title: "Exam Duration",
-      dataIndex: "examDuration",
-      key: "examDuration",
-    },
-    {
-      title: "Exam Time",
-      dataIndex: "examTime",
-      key: "examTime",
-    },
-    {
-      title: "Additional Info",
-      dataIndex: "additionalInfo",
-      key: "additionalInfo",
-    },
-  ];
-
-  return <Table dataSource={examSchedules} columns={columns} rowKey="_id" />;
-};
-
-export default ExamScheduleForm;
+export default ExamForm;
