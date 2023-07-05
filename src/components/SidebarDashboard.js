@@ -22,6 +22,8 @@ import LessonPlan from './LessonPlan';
 import ExamScheduleForm from './ExamSchedule';
 import ExamForm from './Exam';
 import QuestionForm from './QuestionForm';
+import ExamTaking from './ExamTaking';
+import ExamDetails from './ExamDetails';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -34,13 +36,12 @@ const SidebarDashboard = () => {
     email: ''
   });
   const [attendancePercent, setAttendancePercent] = useState(0);
+  const [examId, setExamId] = useState('');
 
 
+ 
   useEffect(() => {
-  }, []);
-
-  
-  useEffect(() => {
+    fetchExamId();
     fetchStudents();
     fetchTeachers();
   }, []);
@@ -54,6 +55,18 @@ const SidebarDashboard = () => {
     }
   };
 
+  const fetchExamId = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/exams');
+      const exams = response.data;
+      if (exams.length > 0) {
+        setExamId(exams[0]._id); // Assuming you want to use the first exam ID
+      }
+    } catch (error) {
+      console.error('Error fetching exam ID:', error);
+    }
+  };
+  
   const fetchTeachers = async () => {
     try {
       const response = await axios.get('http://localhost:8080/api/teachers');
@@ -78,6 +91,10 @@ const SidebarDashboard = () => {
     { key: 'exam', icon: <FileTextOutlined />, label: 'Examination Schecule', path: '/exam' },
     { key: 'examination', icon: <FileTextOutlined />, label: 'Examination', path: '/examination' },
     { key: 'question', icon: <FileTextOutlined />, label: 'Setting Question', path: '/question' },
+    { key: 'exam-taking', icon: <FileTextOutlined />, label: 'Exam Taking', path: '/exam-taking' },
+    { key: 'exam-details', icon: <FileTextOutlined />, label: 'Exam Tetails', path: '/exam-details' },
+
+
 
   ];
 
@@ -116,6 +133,8 @@ const SidebarDashboard = () => {
                 <Route path="/exam" element={<ExamScheduleForm />} />
                 <Route path="/examination" element={<ExamForm />} />
                 <Route path="/question" element={<QuestionForm />} />
+                <Route path="/exam-taking" element={<ExamTaking examId={examId} />} />
+                <Route path="/exam-details" element={<ExamDetails examId={examId} />} />
               </Routes>
             </div>
           </Content>
