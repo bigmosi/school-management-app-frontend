@@ -92,7 +92,7 @@ const SidebarDashboard = () => {
     { key: 'examination', icon: <FileTextOutlined />, label: 'Examination', path: '/examination' },
     { key: 'question', icon: <FileTextOutlined />, label: 'Setting Question', path: '/question' },
     { key: 'exam-taking', icon: <FileTextOutlined />, label: 'Exam Taking', path: '/exam-taking' },
-    { key: 'exam-details', icon: <FileTextOutlined />, label: 'Exam Tetails', path: '/exam-details' },
+    { key: 'exam-details', icon: <FileTextOutlined />, label: 'Exam Details', path: '/exam-details' },
 
 
 
