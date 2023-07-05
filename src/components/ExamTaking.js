@@ -6,6 +6,7 @@ const ExamTaking = () => {
   const [exams, setExams] = useState([]);
   const [selectedExam, setSelectedExam] = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
+  const [userName, setUserName] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
   const [error, setError] = useState(null);
 
@@ -34,29 +35,34 @@ const ExamTaking = () => {
     setUserAnswers(updatedAnswers);
   };
 
+  const handleNameChange = (e) => {
+    setUserName(e.target.value);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await axios.post(
         `http://localhost:8080/api/exams/${selectedExam._id}/submit`,
         {
-          userAnswers,
+          userName: userName,
+          userAnswers: userAnswers
         }
       );
-
+  
       setSubmissionMessage("Exam submitted successfully");
-
+  
       setTimeout(() => {
         setSubmissionMessage("");
       }, 5000);
-
+  
       // Clear user answers after submission
       setUserAnswers(new Array(selectedExam.questions.length).fill(""));
     } catch (error) {
       console.error("Error submitting exam", error);
     }
-  };
+  };  
 
   if (!exams.length) {
     return <Spinner />;
@@ -77,6 +83,12 @@ const ExamTaking = () => {
         <div>
           <h2>{selectedExam.examName}</h2>
           <form onSubmit={handleSubmit}>
+            <div>
+              <label>
+                Student Name: 
+                <input type="text" value={userName} onChange={handleNameChange} />
+              </label>
+            </div>
             {selectedExam.questions.map((question, index) => (
               <div key={question._id}>
                 <h4>Question {index + 1}:</h4>
