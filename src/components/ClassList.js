@@ -15,6 +15,7 @@ function ClassList() {
   });
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const { _id } = useParams();
 
@@ -73,6 +74,10 @@ function ClassList() {
       if (isAdding) {
         const response = await axios.post('http://localhost:8080/api/classes', formData);
         if (response.status === 201) {
+          setSuccessMessage('Class added successfully');
+          setTimeout(() => {
+            setSuccessMessage('');
+          }, 5000);
           setIsAdding(false);
           fetchClasses();
         }
@@ -86,6 +91,10 @@ function ClassList() {
         if (response.status === 200) {
           setIsEditing(false);
           fetchClasses();
+          setSuccessMessage('Class updated successfully');
+          setTimeout(() => {
+            setSuccessMessage('');
+          }, 5000);
         }
       }
     } catch (error) {
@@ -175,6 +184,7 @@ function ClassList() {
           <button type="submit" className="submit-button">
             {isAdding ? 'Add' : 'Update'}
           </button>
+          {successMessage && <p className="success-message">{successMessage}</p>}
         </form>
       </div>
 
