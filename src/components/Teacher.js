@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Modal, Form, Input, Button } from 'antd';
+import { Table, Modal, Form, Input, Button, Image } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import "./Teacher.css";
 
@@ -91,8 +91,25 @@ function TeacherManagement({ teachers, formData, setFormData, fetchTeachers }) {
         <p>No teachers available.</p>
       ) : (
         <Table dataSource={teachers} rowKey="_id">
-          <Table.Column title="Name" dataIndex="name" key="name" />
+          <Table.Column
+           title="Name"
+           dataIndex="name"
+           key="name"
+           render={(text, teacher) => (
+           <div style={{ display: "flex", alignItems: "center" }}>
+          <img
+           src={`http://localhost:8080/uploads/${teacher.image}`}
+           alt={teacher.name}
+           style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+          />
+      <span style={{ marginLeft: "10px" }}>{teacher.name}</span>
+    </div>
+  )}
+/>
+
           <Table.Column title="Email" dataIndex="email" key="email" />
+          <Table.Column title="Class" dataIndex="classroom" key="classroom" />
+          <Table.Column title="Gender" dataIndex="gender" key="gender" />
           <Table.Column
             title="Actions"
             key="actions"

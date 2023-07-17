@@ -71,6 +71,7 @@ const SidebarDashboard = () => {
     try {
       const response = await axios.get('http://localhost:8080/api/teachers');
       setTeachers(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching teachers:', error);
     }
