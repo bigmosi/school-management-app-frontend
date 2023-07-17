@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./ClassList.css";
 import Spinner from './Spinner';
+import { useParams } from 'react-router-dom';
 
 function ClassList() {
   const [classes, setClasses] = useState([]);
@@ -14,6 +15,9 @@ function ClassList() {
   });
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const { _id } = useParams();
 
   useEffect(() => {
     fetchClasses();
@@ -22,7 +26,6 @@ function ClassList() {
   const fetchClasses = async () => {
     try {
       const response = await axios.get('http://localhost:8080/api/classes');
-      console.log(response.data);
       if (response.status === 200) {
         const classData = response.data;
         setClasses(classData);
@@ -45,6 +48,7 @@ function ClassList() {
     setIsEditing(true);
     setIsAdding(false);
     setFormData({
+      _id: classItem._id, // Use _id instead of id
       name: classItem.name,
       teacher: classItem.teacher,
       schedule: classItem.schedule,
@@ -54,7 +58,7 @@ function ClassList() {
 
   const handleDeleteClick = async (classItem) => {
     try {
-      const response = await axios.delete(`http://localhost:8080/api/classes/${classItem._id}`);
+      const response = await axios.delete(`http://localhost:8080/api/classes/${_id}`);
       if (response.status === 200) {
         fetchClasses();
       }
@@ -65,35 +69,45 @@ function ClassList() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
       if (isAdding) {
         const response = await axios.post('http://localhost:8080/api/classes', formData);
         if (response.status === 201) {
+          setSuccessMessage('Class added successfully');
+          setTimeout(() => {
+            setSuccessMessage('');
+          }, 5000);
           setIsAdding(false);
           fetchClasses();
         }
       } else if (isEditing) {
+        const classId = formData._id;
+        const { name, teacher, schedule, subject } = formData;
         const response = await axios.put(
-          `http://localhost:8080/api/classes/${classes._id}`,
-          formData
+          `http://localhost:8080/api/classes/${classId}`,
+          { name, teacher, schedule, subject }
         );
         if (response.status === 200) {
           setIsEditing(false);
           fetchClasses();
+          setSuccessMessage('Class updated successfully');
+          setTimeout(() => {
+            setSuccessMessage('');
+          }, 5000);
         }
       }
     } catch (error) {
       console.error('Error submitting class:', error);
     }
-  };
+  };  
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   if (classes.length === 0) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   return (
@@ -170,6 +184,7 @@ function ClassList() {
           <button type="submit" className="submit-button">
             {isAdding ? 'Add' : 'Update'}
           </button>
+          {successMessage && <p className="success-message">{successMessage}</p>}
         </form>
       </div>
 
