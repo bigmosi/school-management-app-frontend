@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { PieChartOutlined, UserOutlined, CodeOutlined, FileTextOutlined, SolutionOutlined, CheckCircleOutlined, DashboardOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ClassList from './ClassList';
 import axios from 'axios';
 import StudentList from './StudentList';
@@ -24,6 +25,7 @@ import ExamForm from './Exam';
 import QuestionForm from './QuestionForm';
 import ExamTaking from './ExamTaking';
 import ExamDetails from './ExamDetails';
+import TeacherDetailsPage from './TeacherDetails';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -37,6 +39,8 @@ const SidebarDashboard = () => {
   });
   const [attendancePercent, setAttendancePercent] = useState(0);
   const [examId, setExamId] = useState('');
+  const { _id } = useParams();
+
 
 
  
@@ -71,6 +75,7 @@ const SidebarDashboard = () => {
     try {
       const response = await axios.get('http://localhost:8080/api/teachers');
       setTeachers(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching teachers:', error);
     }
@@ -135,6 +140,7 @@ const SidebarDashboard = () => {
                 <Route path="/question" element={<QuestionForm />} />
                 <Route path="/exam-taking" element={<ExamTaking examId={examId} />} />
                 <Route path="/exam-details" element={<ExamDetails examId={examId} />} />
+                <Route path="/teacher/:id" component={TeacherDetailsPage} id={_id} />
               </Routes>
             </div>
           </Content>

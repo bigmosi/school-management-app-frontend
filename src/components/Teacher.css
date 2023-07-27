@@ -41,3 +41,22 @@
   display: flex;
   justify-content: end;
 }
+
+.details-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.about {
+  width: 40%;
+}
+
+.Gender {
+  border: 2px solid red;
+  display: flex;
+  justify-content: space-around;
+}
+
+.hoverable-row:hover {
+  background-color: green;
+}
