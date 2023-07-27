@@ -1,0 +1,41 @@
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .registration-form label {
+    margin-bottom: 8px;
+  }
+  
+  .registration-form input,
+  .registration-form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .registration-form select {
+    cursor: pointer;
+  }
+  
+  .registration-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .registration-form .success-message {
+    color: green;
+    margin-top: 12px;
+  }
+  
