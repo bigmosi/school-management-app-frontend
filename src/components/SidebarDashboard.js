@@ -104,7 +104,6 @@ const SidebarDashboard = () => {
   ];
 
   return (
-    <Router>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
           <div className="demo-logo-vertical" />
@@ -147,7 +146,6 @@ const SidebarDashboard = () => {
           <Footer style={{ textAlign: 'center' }}>Design ©2023 Created by Kinyera Amos</Footer>
         </Layout>
       </Layout>
-    </Router>
   );
 };
 
