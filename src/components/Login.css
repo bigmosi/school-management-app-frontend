@@ -1,0 +1,31 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#login-btn{
+    width: 70%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: whitesmoke;
+    font-size: 20px;
+    background: rgb(111, 35, 255);
+}
+.signup {
+    margin-top: 5%;
+}
+.signup h1{
+    font-size: 40px;
+    text-align: center;
+}
+#sign-btn{
+    width: 70%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: whitesmoke;
+    font-size: 20px;
+    background: rgb(11, 165, 36);
+}

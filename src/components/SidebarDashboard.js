@@ -12,6 +12,7 @@ import StudentDetails from './StudentDetails';
 import AdmissionForm from './Admission';
 import AttendanceList from './AttendanceList';
 import HomePage from '../pages/HomePage';
+import SignupForm from "./SignupForm";
 import './SidebarDashboard.css';
 import './theme.less';
 import AttendanceReport from './ReportAttendance';
@@ -105,23 +106,39 @@ const SidebarDashboard = () => {
 
   return (
     <Router>
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout style={{ minHeight: "100vh" }}>
         <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
+
+          <div className="logo" />
+          <Menu theme="dark" defaultSelectedKeys={["home"]} mode="inline">
+            <Menu.Item key="home" icon={<PieChartOutlined />}>
+              <Link to="/">Dashboard</Link>
+            </Menu.Item>
+            <SubMenu key="student" icon={<UserOutlined />} title="Student">
+              <Menu.Item key="studentList">
+                <Link to="/students">Student List</Link>
+              </Menu.Item>
+              <Menu.Item key="addStudent">
+                <Link to="/add-student">Add Student</Link>
+
           <div className="demo-logo-vertical" />
           <Menu theme="dark" defaultSelectedKeys={['home']} mode="inline">
             {items.map(item => (
               <Menu.Item key={item.key} icon={item.icon}>
                 <Link to={item.path}>{item.label}</Link>
+
               </Menu.Item>
             ))}
           </Menu>
         </Sider>
         <Layout>
           <Header style={{ padding: 0 }} />
+
           <Content style={{ margin: '0 16px' }}>
             <div>
               <Routes>
-                <Route path="/home" element={<HomePage students={students} teachers={teachers} attendancePercent={attendancePercent} />} />
+                <Route path="/signup" element={<SignupForm/>} />
+                <Route path="/" element={<HomePage students={students} teachers={teachers} attendancePercent={attendancePercent} />} />
                 <Route path="/students" element={<StudentList students={students} />} />
                 <Route path="/students/:id" element={<StudentDetails />} />
                 <Route path="/class" element={<ClassList />} />
@@ -145,6 +162,7 @@ const SidebarDashboard = () => {
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>Design ©2023 Created by Kinyera Amos</Footer>
+
         </Layout>
       </Layout>
     </Router>
