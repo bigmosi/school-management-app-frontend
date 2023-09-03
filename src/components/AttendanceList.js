@@ -1,87 +1,172 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Table, Modal, Form, Input, Select, Button, Progress } from 'antd';
+import './AttendanceList.css';
+import Spinner from './Spinner';
 
-const AttendancePage = () => {
-  const { id } = useParams();
-  const [attendance, setAttendance] = useState([]);
-  const [newAttendance, setNewAttendance] = useState({
-    date: '',
-    status: '',
-  });
+const { Option } = Select;
+
+const AttendanceList = ({ setAttendancePercent }) => {
+  const [attendanceList, setAttendanceList] = useState([]);
+  const [studentNames, setStudentNames] = useState({});
+  const [newAttendanceModalVisible, setNewAttendanceModalVisible] = useState(false);
+  const [form] = Form.useForm();
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    fetchAttendance();
+    fetchAttendanceList();
   }, []);
 
-  const fetchAttendance = async () => {
+  useEffect(() => {
+    calculateAttendancePercentage();
+  }, [attendanceList]);
+
+
+  const fetchAttendanceList = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/students/${id}/attendance`);
-      console.log(response.data);
-      setAttendance(response.data);
+      const response = await axios.get('http://localhost:8080/api/attendance');
+      setAttendanceList(response.data);
+      fetchStudentNames(response.data);
     } catch (error) {
-      console.error('Error fetching attendance:', error);
+      console.error('Error fetching attendance list:', error);
     }
   };
 
-  const handleAttendanceSubmit = async (event) => {
-    event.preventDefault();
+  const fetchStudentNames = async (attendanceData) => {
+    const studentIds = attendanceData.map(attendance => attendance.student);
+    const uniqueStudentIds = [...new Set(studentIds)];
+
     try {
-      const response = await axios.post(`http://localhost:8080/api/students/${id}/attendance`, newAttendance);
-      setAttendance([...attendance, response.data]);
-      setNewAttendance({
-        date: '',
-        status: '',
+      const response = await axios.get(`http://localhost:8080/api/students?ids=${uniqueStudentIds.join(',')}`);
+      const namesMap = {};
+      response.data.forEach(student => {
+        namesMap[student.id] = student.name;
       });
+      setStudentNames(namesMap);
     } catch (error) {
-      console.error('Error adding attendance:', error);
+      console.error('Error fetching student names:', error);
     }
   };
 
-  const handleAttendanceChange = (event) => {
-    setNewAttendance({
-      ...newAttendance,
-      [event.target.name]: event.target.value,
-    });
+  const handleAddAttendance = () => {
+    setNewAttendanceModalVisible(true);
   };
+
+  const handleCancelNewAttendance = () => {
+    setNewAttendanceModalVisible(false);
+    form.resetFields();
+  };
+
+  const handleNewAttendanceSubmit = async (values) => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/attendance', values);
+      setAttendanceList([...attendanceList, response.data]);
+      setSuccessMessage('Attendance submitted successfully');
+
+      form.resetFields();
+      setNewAttendanceModalVisible(false);
+
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 5000);
+    } catch (error) {
+      console.error('Error adding new attendance:', error);
+    }
+  };
+
+  const calculateAttendancePercentage = () => {
+    if (attendanceList.length === 0) {
+      setAttendancePercent(0);
+    } else {
+      const presentCount = attendanceList.filter(attendance => attendance.status === 'Present').length;
+      const attendancePercentage = (presentCount / attendanceList.length) * 100;
+      setAttendancePercent(attendancePercentage);
+    }
+  }
+
+  const columns = [
+    {
+      title: 'Student',
+      dataIndex: 'student',
+      key: 'student',
+      render: (student) => studentNames[student],
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+    },
+  ];
+
+  if (attendanceList.length === 0) {
+    return <Spinner />
+  }
 
   return (
-    <div>
-      <h2>Attendance Page</h2>
+    <div className="attendance-container">
       <div>
-        <h2>Attendance Records</h2>
-        {attendance.length > 0 ? (
-          <ul>
-            {attendance.map((record) => (
-              <li key={record.id}>
-                <strong>Date:</strong> {record.date} - <strong>Status:</strong> {record.status}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div>No attendance records found.</div>
-        )}
+        <div className="total-record">
+          Attendance: {attendanceList.length}
+        </div>
+      <div className="button-conatiner">
+        <Button style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "150px" }} onClick={handleAddAttendance}>Add Attendance</Button>
       </div>
-      <div>
-        <h2>Add Attendance</h2>
-        <form onSubmit={handleAttendanceSubmit}>
-          <div>
-            <label>Date:</label>
-            <input type="date" name="date" value={newAttendance.date} onChange={handleAttendanceChange} />
-          </div>
-          <div>
-            <label>Status:</label>
-            <select name="status" value={newAttendance.status} onChange={handleAttendanceChange}>
-              <option value="">Select Status</option>
-              <option value="Present">Present</option>
-              <option value="Absent">Absent</option>
-            </select>
-          </div>
-          <button type="submit">Add</button>
-        </form>
+        <Table columns={columns} dataSource={attendanceList} className="table-data" />
+        <Modal
+          title={<span style={{ fontFamily: "lato", fontSize: "20px", textAlign: "center" }}>Add New Attendance</span>}
+          visible={newAttendanceModalVisible}
+          onCancel={handleCancelNewAttendance}
+          footer={null}
+        >
+          <Form form={form} onFinish={handleNewAttendanceSubmit} className="attendance-form">
+  <Form.Item
+    name="student"
+    label="Student"
+    className="text-input"
+    rules={[{ required: true, message: 'Please select a student' }]}
+  >
+    <Select placeholder="Select a student" className="select-input">
+      {Object.entries(studentNames).map(([id, name]) => (
+        <Option key={id} value={id}>{name}</Option>
+      ))}
+    </Select>
+  </Form.Item>
+
+  <Form.Item
+    name="date"
+    label="Date"
+    rules={[{ required: true, message: 'Please enter a date' }]}
+  >
+    <Input type="date" className="text-input" />
+  </Form.Item>
+
+  <Form.Item
+    name="status"
+    label="Status"
+    rules={[{ required: true, message: 'Please select a status' }]}
+  >
+    <Select placeholder="Select a status" className="select-input">
+      <Option value="Present">Present</Option>
+      <Option value="Absent">Absent</Option>
+    </Select>
+  </Form.Item>
+
+  {successMessage && <div className="success-message">{successMessage}</div>}
+
+  <div className="attendance-button">
+    <Button style={{ backgroundColor: '#001529', color: 'white', height: "45px", width: "100px" }} htmlType="submit">Submit</Button>
+  </div>
+</Form>
+
+        </Modal>
       </div>
     </div>
   );
 };
 
-export default AttendancePage;
+export default AttendanceList;

@@ -1,0 +1,46 @@
+.form {
+    margin-bottom: 1rem;
+  }
+  
+  .form-field {
+    margin-bottom: 1rem;
+  }
+  
+  .form-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-field input,
+  .form-field select {
+    width: 100%;
+    padding: 0.5rem;
+  }
+  
+  .form-actions button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+  }
+  
+  .subject-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .subject-item {
+    margin-bottom: 1rem;
+  }
+  
+  .subject-item button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-left: 1rem;
+  }
+  

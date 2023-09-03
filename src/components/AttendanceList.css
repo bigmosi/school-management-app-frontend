@@ -1,40 +1,80 @@
-.attendance-list {
-    margin-top: 50px;
-  }
-  
-  .attendance-list h2 {
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .attendance-list label {
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .attendance-list input[type="date"] {
-    margin-left: 10px;
-  }
-  
-  .attendance-list table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-  }
-  
-  .attendance-list th,
-  .attendance-list td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .attendance-list th {
-    font-weight: bold;
-  }
-  
-  .attendance-list select {
-    padding: 6px;
-    font-size: 14px;
-  }
-  
+.table-data {
+  width: 100%;
+}
+
+.attendance-container {
+  width: 100%;
+}
+
+.button-conatiner {
+  display: flex;
+  justify-content: end;
+  margin: 15px;
+}
+
+.ant-pagination {
+  display: flex;
+  justify-content: start;
+  margin-top: 16px;
+}
+
+.ant-pagination-item,
+.ant-pagination-prev,
+.ant-pagination-next {
+  margin: 0 4px;
+}
+
+.ant-pagination-item-active a {
+  color: #000000ff;
+}
+
+.ant-pagination-prev,
+.ant-pagination-next {
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+
+.ant-pagination-prev-icon,
+.ant-pagination-next-icon {
+  color: #999;
+}
+
+.ant-pagination-prev-icon:before,
+.ant-pagination-next-icon:before {
+  font-size: 12px;
+}
+
+.ant-pagination-prev:hover,
+.ant-pagination-next:hover,
+.ant-pagination-prev:focus,
+.ant-pagination-next:focus {
+  border-color: #1890ff;
+}
+
+.ant-pagination-jump-prev,
+.ant-pagination-jump-next {
+  display: none;
+}
+
+.total-record {
+  margin: 15px;
+  font-size: 20px;
+  font-family: lato;
+}
+
+.text-input {
+  width: 100%;
+}
+
+.select-input {
+  width: 100%;
+}
+
+.success-message {
+  color: green;
+}
+
+.attendance-button {
+  margin-top: 10px;
+}
+

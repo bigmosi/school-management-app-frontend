@@ -1,0 +1,56 @@
+.timetable-management {
+    font-family: Arial, sans-serif;
+  }
+  
+  .timetable-management__title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .timetable-management__form {
+    margin-bottom: 20px;
+  }
+  
+  .timetable-management__schedules {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+  
+  .timetable-management__schedules-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .timetable-management__schedules ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .timetable-management__schedules li {
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+  
+  .timetable-management__schedules li.active {
+    background-color: #ccc;
+  }
+  
+  .timetable-management__schedules li button {
+    margin-left: 10px;
+    padding: 4px 8px;
+    background-color: #d9534f;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .timetable-management__schedules li button:hover {
+    background-color: #c9302c;
+  }
+  

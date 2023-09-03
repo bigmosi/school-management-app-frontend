@@ -1,0 +1,52 @@
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .class-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .class-item {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .class-form {
+    margin-top: 20px;
+  }
+  
+  .submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  

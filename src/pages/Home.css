@@ -45,4 +45,49 @@
   .homepage a:hover {
     text-decoration: underline;
   }
+
+.card-container {
+  background-color: #200C1F;
+  font-size: 30px;
+  color: #fff;
+  font-family: lato;
+}
+
+.teacher-container {
+  background-color: #93FF61;
+  font-size: 30px;
+  color: #fff;
+  font-family: lato;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.semester-container {
+  background-color: #73FFD5;
+  font-size: 30px;
+  color: #fff;
+  font-family: lato;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.semester-container1 {
+  background-color: #73FFD5;
+  font-size: 30px;
+  color: #fff;
+  font-family: lato;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.attendance-container {
+  margin: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.progress-bar {
+    width: 20%;
+}
+
+.progress-bar h2 {
+  font-size: 30px;
+  margin-top: 0;
+}
   
