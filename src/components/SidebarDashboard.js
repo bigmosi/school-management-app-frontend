@@ -1,32 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 // import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { PieChartOutlined, UserOutlined, CodeOutlined, FileTextOutlined, SolutionOutlined, CheckCircleOutlined, DashboardOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu } from 'antd';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import ClassList from './ClassList';
-import axios from 'axios';
-import StudentList from './StudentList';
-import StudentForm from './StudentForm';
-import StudentDetails from './StudentDetails';
-import AdmissionForm from './Admission';
-import AttendanceList from './AttendanceList';
-import HomePage from '../pages/HomePage';
+import {
+  PieChartOutlined,
+  UserOutlined,
+  CodeOutlined,
+  FileTextOutlined,
+  SolutionOutlined,
+  CheckCircleOutlined,
+  DashboardOutlined,
+} from "@ant-design/icons";
+import { Breadcrumb, Layout, Menu } from "antd";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import ClassList from "./ClassList";
+import axios from "axios";
+import StudentList from "./StudentList";
+import StudentForm from "./StudentForm";
+import StudentDetails from "./StudentDetails";
+import AdmissionForm from "./Admission";
+import AttendanceList from "./AttendanceList";
+import HomePage from "../pages/HomePage";
 import SignupForm from "./SignupForm";
-import './SidebarDashboard.css';
-import './theme.less';
-import AttendanceReport from './ReportAttendance';
-import Timetable from './Timetable';
-import TeacherManagement from './Teacher';
-import SubjectManagement from './Subject';
-import Announcement from './Announcement';
-import LessonPlan from './LessonPlan';
-import ExamScheduleForm from './ExamSchedule';
-import ExamForm from './Exam';
-import QuestionForm from './QuestionForm';
-import ExamTaking from './ExamTaking';
-import ExamDetails from './ExamDetails';
-import TeacherDetailsPage from './TeacherDetails';
+import "./SidebarDashboard.css";
+import "./theme.less";
+import AttendanceReport from "./ReportAttendance";
+import Timetable from "./Timetable";
+import TeacherManagement from "./Teacher";
+import SubjectManagement from "./Subject";
+import Announcement from "./Announcement";
+import LessonPlan from "./LessonPlan";
+import ExamScheduleForm from "./ExamSchedule";
+import ExamForm from "./Exam";
+import QuestionForm from "./QuestionForm";
+import ExamTaking from "./ExamTaking";
+import ExamDetails from "./ExamDetails";
+import TeacherDetailsPage from "./TeacherDetails";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -35,16 +43,13 @@ const SidebarDashboard = () => {
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [formData, setFormData] = useState({
-    name: '',
-    email: ''
+    name: "",
+    email: "",
   });
   const [attendancePercent, setAttendancePercent] = useState(0);
-  const [examId, setExamId] = useState('');
+  const [examId, setExamId] = useState("");
   const { _id } = useParams();
 
-
-
- 
   useEffect(() => {
     fetchExamId();
     fetchStudents();
@@ -53,116 +58,231 @@ const SidebarDashboard = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/students');
+      const response = await axios.get("http://localhost:8080/api/students");
       setStudents(response.data);
     } catch (error) {
-      console.error('Error fetching students:', error);
+      console.error("Error fetching students:", error);
     }
   };
 
   const fetchExamId = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/exams');
+      const response = await axios.get("http://localhost:8080/api/exams");
       const exams = response.data;
       if (exams.length > 0) {
         setExamId(exams[0]._id); // Assuming you want to use the first exam ID
       }
     } catch (error) {
-      console.error('Error fetching exam ID:', error);
+      console.error("Error fetching exam ID:", error);
     }
   };
-  
+
   const fetchTeachers = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/teachers');
+      const response = await axios.get("http://localhost:8080/api/teachers");
       setTeachers(response.data);
       console.log(response.data);
     } catch (error) {
-      console.error('Error fetching teachers:', error);
+      console.error("Error fetching teachers:", error);
     }
   };
 
   const items = [
-    { key: 'home', icon: <DashboardOutlined />, label: 'Dashboard', path: '/home' },
-    { key: 'students', icon: <UserOutlined />, label: 'Student', path: '/students' },
-    { key: 'announcement', icon: <FileTextOutlined />, label: 'Announcement', path: '/announcement' },
-    { key: 'class', icon: <CodeOutlined />, label: 'Class', path: '/class' },
-    { key: 'admission', icon: <SolutionOutlined />, label: 'Admission', path: '/admission' },
-    { key: 'attendance', icon: <CheckCircleOutlined />, label: 'Attendance', path: '/attendance' },
-    { key: 'attendance-report', icon: <FileTextOutlined />, label: 'Attendance Report', path: '/attendance-report' },
-    { key: 'time-table', icon: <FileTextOutlined />, label: 'Time Table', path: '/time-table' },
-    { key: 'teacher', icon: <FileTextOutlined />, label: 'Teacher', path: '/teacher' },
-    { key: 'subject', icon: <FileTextOutlined />, label: 'Subject', path: '/subject' },
-    { key: 'lesson', icon: <FileTextOutlined />, label: 'Lesson Plan', path: '/lesson' },
-    { key: 'exam', icon: <FileTextOutlined />, label: 'Examination Schecule', path: '/exam' },
-    { key: 'examination', icon: <FileTextOutlined />, label: 'Examination', path: '/examination' },
-    { key: 'question', icon: <FileTextOutlined />, label: 'Setting Question', path: '/question' },
-    { key: 'exam-taking', icon: <FileTextOutlined />, label: 'Exam Taking', path: '/exam-taking' },
-    { key: 'exam-details', icon: <FileTextOutlined />, label: 'Exam Details', path: '/exam-details' },
-
-
-
+    {
+      key: "home",
+      icon: <DashboardOutlined />,
+      label: "Dashboard",
+      path: "/",
+    },
+    {
+      key: "students",
+      icon: <UserOutlined />,
+      label: "Student",
+      path: "/students",
+    },
+    {
+      key: "announcement",
+      icon: <FileTextOutlined />,
+      label: "Announcement",
+      path: "/announcement",
+    },
+    { key: "class", icon: <CodeOutlined />, label: "Class", path: "/class" },
+    {
+      key: "admission",
+      icon: <SolutionOutlined />,
+      label: "Admission",
+      path: "/admission",
+    },
+    {
+      key: "attendance",
+      icon: <CheckCircleOutlined />,
+      label: "Attendance",
+      path: "/attendance",
+    },
+    {
+      key: "attendance-report",
+      icon: <FileTextOutlined />,
+      label: "Attendance Report",
+      path: "/attendance-report",
+    },
+    {
+      key: "time-table",
+      icon: <FileTextOutlined />,
+      label: "Time Table",
+      path: "/time-table",
+    },
+    {
+      key: "teacher",
+      icon: <FileTextOutlined />,
+      label: "Teacher",
+      path: "/teacher",
+    },
+    {
+      key: "subject",
+      icon: <FileTextOutlined />,
+      label: "Subject",
+      path: "/subject",
+    },
+    {
+      key: "lesson",
+      icon: <FileTextOutlined />,
+      label: "Lesson Plan",
+      path: "/lesson",
+    },
+    {
+      key: "exam",
+      icon: <FileTextOutlined />,
+      label: "Examination Schecule",
+      path: "/exam",
+    },
+    {
+      key: "examination",
+      icon: <FileTextOutlined />,
+      label: "Examination",
+      path: "/examination",
+    },
+    {
+      key: "question",
+      icon: <FileTextOutlined />,
+      label: "Setting Question",
+      path: "/question",
+    },
+    {
+      key: "exam-taking",
+      icon: <FileTextOutlined />,
+      label: "Exam Taking",
+      path: "/exam-taking",
+    },
+    {
+      key: "exam-details",
+      icon: <FileTextOutlined />,
+      label: "Exam Details",
+      path: "/exam-details",
+    },
   ];
 
   return (
     <Router>
       <Layout style={{ minHeight: "100vh" }}>
         <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
-
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={["home"]} mode="inline">
             <Menu.Item key="home" icon={<PieChartOutlined />}>
-              <Link to="/">Dashboard</Link>
+              <Link to="/home">Dashboard</Link>
             </Menu.Item>
-            <SubMenu key="student" icon={<UserOutlined />} title="Student">
+            <Menu key="student" icon={<UserOutlined />} title="Student">
               <Menu.Item key="studentList">
                 <Link to="/students">Student List</Link>
               </Menu.Item>
               <Menu.Item key="addStudent">
                 <Link to="/add-student">Add Student</Link>
-
+              </Menu.Item>
+            </Menu>
+          </Menu>
           <div className="demo-logo-vertical" />
-          <Menu theme="dark" defaultSelectedKeys={['home']} mode="inline">
-            {items.map(item => (
+          <Menu theme="dark" defaultSelectedKeys={["home"]} mode="inline">
+            {items.map((item) => (
               <Menu.Item key={item.key} icon={item.icon}>
                 <Link to={item.path}>{item.label}</Link>
-
               </Menu.Item>
             ))}
           </Menu>
         </Sider>
+
         <Layout>
           <Header style={{ padding: 0 }} />
 
-          <Content style={{ margin: '0 16px' }}>
+          <Content style={{ margin: "0 16px" }}>
             <div>
               <Routes>
-                <Route path="/signup" element={<SignupForm/>} />
-                <Route path="/" element={<HomePage students={students} teachers={teachers} attendancePercent={attendancePercent} />} />
-                <Route path="/students" element={<StudentList students={students} />} />
+                <Route path="/signup" element={<SignupForm />} />
+                <Route
+                  path="/"
+                  element={
+                    <HomePage
+                      students={students}
+                      teachers={teachers}
+                      attendancePercent={attendancePercent}
+                    />
+                  }
+                />
+                <Route
+                  path="/students"
+                  element={<StudentList students={students} />}
+                />
                 <Route path="/students/:id" element={<StudentDetails />} />
                 <Route path="/class" element={<ClassList />} />
                 <Route path="/announcement" element={<Announcement />} />
                 <Route path="/add-student" element={<StudentForm />} />
                 <Route path="/admission" element={<AdmissionForm />} />
-                <Route path="/attendance" element={<AttendanceList setAttendancePercent={setAttendancePercent} />} />
-                <Route path="/attendance-report" element={<AttendanceReport />} />
+                <Route
+                  path="/attendance"
+                  element={
+                    <AttendanceList
+                      setAttendancePercent={setAttendancePercent}
+                    />
+                  }
+                />
+                <Route
+                  path="/attendance-report"
+                  element={<AttendanceReport />}
+                />
                 <Route path="/time-table" element={<Timetable />} />
-                <Route path="/teacher" element={<TeacherManagement 
-                teachers={teachers} formData={formData} setFormData={setFormData} fetchTeachers={fetchTeachers} />} />
+                <Route
+                  path="/teacher"
+                  element={
+                    <TeacherManagement
+                      teachers={teachers}
+                      formData={formData}
+                      setFormData={setFormData}
+                      fetchTeachers={fetchTeachers}
+                    />
+                  }
+                />
                 <Route path="/subject" element={<SubjectManagement />} />
                 <Route path="/lesson" element={<LessonPlan />} />
                 <Route path="/exam" element={<ExamScheduleForm />} />
                 <Route path="/examination" element={<ExamForm />} />
                 <Route path="/question" element={<QuestionForm />} />
-                <Route path="/exam-taking" element={<ExamTaking examId={examId} />} />
-                <Route path="/exam-details" element={<ExamDetails examId={examId} />} />
-                <Route path="/teacher/:id" component={TeacherDetailsPage} id={_id} />
+                <Route
+                  path="/exam-taking"
+                  element={<ExamTaking examId={examId} />}
+                />
+                <Route
+                  path="/exam-details"
+                  element={<ExamDetails examId={examId} />}
+                />
+                <Route
+                  path="/teacher/:id"
+                  component={TeacherDetailsPage}
+                  id={_id}
+                />
               </Routes>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Design ©2023 Created by Kinyera Amos</Footer>
-
+          <Footer style={{ textAlign: "center" }}>
+            Design ©2023 Created by Kinyera Amos
+          </Footer>
         </Layout>
       </Layout>
     </Router>
